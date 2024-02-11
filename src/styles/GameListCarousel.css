@@ -1,0 +1,41 @@
+.gameListContainer{
+    display: flex;
+    padding: 24px 36px;
+    flex-direction: column;
+}
+
+.gameList{
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    grid-template-rows: repeat(4, 1fr);
+    gap:36px;
+    align-items: center;
+    justify-content: center;
+    padding:24px;
+}
+
+.pagination{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    align-content: center;
+    gap: 32px;
+}
+
+.Arrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pages{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 20px;
+}
+
+.focus{
+    color: var(--accent);
+    font-weight: bold;
+}

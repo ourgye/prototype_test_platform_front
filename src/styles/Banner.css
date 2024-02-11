@@ -1,0 +1,49 @@
+/* using swipper */
+
+.Banner{
+    background-color: #fff;
+    width: 100%;
+    padding: 24px 0px;
+    /* pagination */
+    --swiper-pagination-color: black;
+    --swiper-pagination-bottom: 0px;
+    --swiper-pagination-bullet-size: 10px;
+    --swiper-pagination-bullet-width: 10px;
+    --swiper-pagination-bullet-height: 10px;
+    --swiper-pagination-bullet-inactive-color: #D9D9D9;
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-horizontal-gap: 4px;
+    /* navigation */
+    --swiper-navigation-size: 24px;
+    --swiper-navigation-top-offset: 20px;
+    --swiper-navigation-sides-offset: 0;
+    --swiper-navigation-color: white;
+}
+
+.Banner .swiper-slide{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* navigation */
+.Banner .swiper-button-prev{
+    width: 48px;
+    height: 280px;
+    border-radius: 0px 8px 8px 0px;
+    background: #5A5656;
+}
+
+.Banner .swiper-button-next{
+    width: 48px;
+    height: 280px;
+    border-radius: 8px 0px 0px 8px;
+    background: #5A5656;
+}
+
+/* pagination */
+
+.Banner .swiper-pagination{
+    position: inherit
+}

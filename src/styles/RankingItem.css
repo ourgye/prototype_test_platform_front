@@ -1,0 +1,42 @@
+.rankingItem{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+.rankingThumbnail{
+    width: 300px;
+    height: 168.44px;   
+    border-radius: 8px;
+    background: var(--primary);
+}
+.description{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+.rankNum{
+    color: var(--text);
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 700;
+}
+.gameDescription{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.rankingItem .gameName{
+    background-color: inherit;
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 700;
+}
+.rankingItem .gameCategory{
+    color: #696969;
+    font-size: 12px;
+    font-weight: 500;
+}

@@ -1,0 +1,40 @@
+.BannerSlideItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    width: 1300px;
+    height: 300px;
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+/* banner image (game image) */
+.BannerImage{
+    height: inherit;
+    width: 590px;
+    background-color: var(--accent)
+}
+
+/* banner text(game name and category) */
+.BannerText{
+    display: flex;
+    padding: 0px 64px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 64px;
+    flex: 1 0 0;
+}
+.GameName{
+    color: var(--text);
+    font-size: 44px;
+    font-weight: 500;
+}
+.GameCategory{
+    display: flex;
+    gap: 8px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 300;
+    list-style: none;
+}

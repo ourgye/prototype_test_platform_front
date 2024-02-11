@@ -1,0 +1,19 @@
+.CarouselContainer{
+    width: 100%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.title{
+    text-align: start;
+    font-size: 32px;
+    font-weight: 400;   
+    padding: 0 36px;
+}
+.mainCarousel{
+    overflow: hidden;
+    padding: 24px 0px;   
+}
+.mainCarousel .swiper-slide{
+    width: fit-content;
+}
+

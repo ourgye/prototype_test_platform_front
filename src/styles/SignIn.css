@@ -1,0 +1,44 @@
+h1{
+    font-size: 32px;
+    margin: 0;
+    padding: 0;
+}
+p{
+    font-size: 16px;
+}
+
+.loginInput{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0px;
+}
+
+.loginTab{
+    position: absolute;
+    left: 50%;
+    top: 80px;
+    transform: translate(-50%);
+    
+    margin-top: 90px;
+    width: 360px;
+    text-align: left;
+}
+
+.signUp{
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+.signUp a{
+   text-decoration: underline;
+   font-weight: bold;
+}
+
+
+.Oauth2login{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    gap: 16px;
+    margin-top: 64px;
+}

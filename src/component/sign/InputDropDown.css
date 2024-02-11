@@ -1,0 +1,10 @@
+.inputDropDown{
+    font-size: 16px;
+    border: 2px solid #D9D9D9;
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+}
+.error{
+    border-color: var(--accent);
+}

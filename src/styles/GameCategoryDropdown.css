@@ -1,0 +1,45 @@
+.gameCategoryDropdown{
+    position: absolute;
+    width: fit-content;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    
+}
+
+.gameCategoryDropdown a{
+    list-style: none;
+    font-size: 16px;
+    color: black;
+    width: 210px;
+    height: 28px;
+    font-weight: 100;
+    border-bottom: 1px solid var(--background);
+
+    /* text vertically center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gameCategoryDropdown li:hover{
+    background-color: var(--primary);
+}
+
+.gameCategoryDropdown .categoryHeader{
+    color: white;
+    background-color: var(--accent);
+}
+
+.gameCategoryDropdown .moreIcon{
+    background-color: var(--background);
+}
+.gameCategoryDropdown .categoryHeader:hover{
+    background-color: var(--accent);
+    cursor: default;
+}
+.gameCategoryDropdown .moreIcon:hover{
+    background-color: var(--background);
+}

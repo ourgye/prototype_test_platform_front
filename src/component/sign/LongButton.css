@@ -1,0 +1,25 @@
+.LongButton{
+    width: 480px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 300;
+    border-radius: 20px;
+}
+.LongButton:hover{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.YellowButton{
+    background-color: var(--primary);
+    color: var(--text);
+}
+
+.RedButton{
+    background-color: var(--accent);
+    color: white;
+}
