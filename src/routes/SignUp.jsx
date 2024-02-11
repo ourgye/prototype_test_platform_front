@@ -16,13 +16,16 @@ function EmailSignUp() {
         <div>
           이메일*
           <br />
-          <InputBox width={"360px"} />
-        </div>{" "}
+          <div className="emailInput" style={{display: "flex", flexDirection: "row", justifyContent: 'space-between'}}>
+            <InputBox width={"300px"} />
+            <button style={{ width: '50px', }}>중복 확인</button>
+          </div>
+        </div>
         <div>
           비밀번호*
           <br />
           <InputBox width={"360px"} />
-        </div>{" "}
+        </div>
         <div>
           비밀번호 확인*
           <br />

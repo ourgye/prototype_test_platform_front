@@ -12,15 +12,15 @@ function App() {
       element: <Main />,
     },
     {
-      path: "SignIn",
+      path: "signin",
       element: <Sign />,
     },
     {
-      path: "Games",
+      path: "games",
       element: <Games />,
     },
     {
-      path: "SignUp",
+      path: "signup",
       element: <SignUp />,
     },
   ]);
