@@ -5,6 +5,15 @@ import Sign from "./routes/SignIn";
 import Games from "./routes/Games";
 import SignUp from "./routes/SignUp.jsx";
 
+// tansack query
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -27,7 +36,9 @@ function App() {
 
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </div>
   );
 }
