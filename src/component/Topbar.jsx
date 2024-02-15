@@ -41,11 +41,29 @@ function TopbarBtn(props) {
   );
 }
 
+function TopbarLogin() {
+  return (<>
+    <div className="tobparProfile"></div>
+    <TopbarBtn name="프로토타입 제작" color="yellow" />
+  </>
+  );
+}
+
+function TopbarNLogin() {
+  return (
+    <>
+      <TopbarBtn name="로그인" href='/SignIn' />
+      <TopbarBtn name="가입" href="/SignUp" />
+    </>
+  );
+  
+}
+
 function Topbar() {
   //스크롤 위치 갱신
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isYmoved, setIsYmoved] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const updateScroll = () => {
     setScrollY(window.scrollY || document.documentElement.scrollTop);
@@ -77,9 +95,7 @@ function Topbar() {
       <div className="topbarRight">
         <SearchBox />
         <div className="buttons">
-          <TopbarBtn name="로그인" href='/SignIn' />
-          <TopbarBtn name="가입" href="/SignUp" />
-          <TopbarBtn name="프로토타입 제작" color="yellow" />
+          {isLogin? <TopbarLogin/> : <TopbarNLogin/>}
         </div>
       </div>
     </div>

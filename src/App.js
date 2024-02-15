@@ -4,6 +4,7 @@ import Main from "./routes/Main";
 import Sign from "./routes/SignIn";
 import Games from "./routes/Games";
 import SignUp from "./routes/SignUp.jsx";
+import MyPage from "./routes/MyPage.jsx";
 
 // tansack query
 import {
@@ -31,6 +32,10 @@ function App() {
     {
       path: "signup",
       element: <SignUp />,
+    },
+    {
+      path: "userid?/mypage",
+      element: <MyPage />,
     },
   ]);
 

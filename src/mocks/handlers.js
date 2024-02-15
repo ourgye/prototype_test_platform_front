@@ -3,17 +3,27 @@ import { http, HttpResponse } from "msw";
 const allGames = new Map();
 
 export const handlers = [
-  http.get("/mocking", () => {
-    console.log("Captured a 'GET /mocking request");
-  }),
-  http.get("/games", () => {
-    return HttpResponse.json({ hi: "good" });
-  }),
-  http.post("/game-request", async ({ request }) => {
-    const newGame = await request.json();
+  // POST/ user/login
+  http.post("/user/login", async ({ request }) => {
+    console.log("POST /user/login");
 
-    allGames.set(newGame.id, newGame);
+    const user = await request.json();
+    if (
+      user.user_email === "develop_gp@skku.edu" &&
+      user.user_pw === "happyday12"
+    )
+      return HttpResponse.json({ user_id: "2020123456" }, { status: 201 });
+  }),
+  http.post("/user/logout", async ({ request }) => {
+    console.log("POST /user/logout");
 
-    return HttpResponse.json(newGame, { status: 201 });
+    return HttpResponse.json({ message: "logout successed" }, { status: 200 });
+  }),
+  http.post("/user/register", async ({ request }) => {
+    console.log("POST /user/register");
+    return HttpResponse.json(
+      { message: "register successed" },
+      { status: 200 }
+    );
   }),
 ];

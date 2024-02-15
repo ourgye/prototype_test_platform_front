@@ -1,0 +1,86 @@
+/* 유저 프로필 전체 */
+.user-profile-container{
+    display: flex;
+    flex-direction: row;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 260px;
+    width: 1048px;
+}
+
+.user-infomation{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 32px;
+}
+
+/* 유저 바이오 */
+.user-name-bio{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+    padding: 8px;
+}
+
+.username{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* 유저 정보 (박스) */
+.user-page-detailed-info{
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 36px;
+    padding: 8px 24px;
+    border: 1px solid var(--background);
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.user-infobox-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detailed-info-name{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+/* 유저 프로필 이미지 */
+.user-profile-image-container{
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    gap: 24px
+}
+
+.user-profile-image{
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.user-profile-modify-button{
+    font-family: inherit;
+    font-size: 16px;
+    width: fit-content;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+}
+
+.user-profile-modify-button:hover{
+    font-weight: 800;
+}
