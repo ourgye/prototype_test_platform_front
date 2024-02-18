@@ -18,7 +18,7 @@ function Games() {
       <header>
         <TopBar />
       </header>
-      <div className="mainContianer">
+      <div className="mainContainer">
         <Banner />
         <GameListCarousel title={"카테고리 이름"} />
       </div>

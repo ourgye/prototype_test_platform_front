@@ -8,7 +8,7 @@ function Main() {
       <header>
         <TopBar />
       </header>
-      <div className="mainContianer">
+      <div className="mainContainer">
         <Banner />
         <Carousel ai={true} title={"AI 추천 게임"} />
         <Carousel rank={true} title={"Top10"} />

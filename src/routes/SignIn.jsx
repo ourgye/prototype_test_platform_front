@@ -2,18 +2,19 @@ import LongButton from "../component/sign/LongButton";
 import InputBox from "../component/sign/InputBox";
 import TopBar from "../component/Topbar";
 import "../styles/SignIn.css";
+import { Link } from "react-router-dom";
 
 function SignUpText() {
   return (
     <div className="signUp">
-      아직 회원이 아니신가요? <a href="/SignUp">회원가입 하러 가기</a>
+      아직 회원이 아니신가요? <Link to="/SignUp">회원가입 하러 가기</Link>
     </div>
   );
 }
 
 function EmailLogin() {
   return (
-    <>
+    <div>
       <h1>회원 로그인</h1>
       <p>GAME PROTO에 오신 걸 환영합니다.</p>
       <div>
@@ -44,7 +45,7 @@ function EmailLogin() {
           yellow={true}
         />
       </div>
-    </>
+    </div>
   );
 }
 

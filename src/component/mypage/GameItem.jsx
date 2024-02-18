@@ -1,6 +1,7 @@
 import './GameItem.css'
 import { ReactComponent as ReviewIcon } from '../../icons/review.svg';
 
+// props: title, testCount, gameCategory, reviewNum
 function GameItem(props) {
 
     return (<div className='gameItem'>

@@ -1,0 +1,45 @@
+/* 페이지 어딘지 알려주는 부분 */
+.where-am-i{
+   display: flex;
+   flex-direction: row;
+   font-size: 20px;
+   color: grey;
+   fill: grey;
+   align-items: center;
+   padding: 32px 64px;
+}
+
+.mypage-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+}
+
+.mypage-inner-tab{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inner-list{
+    padding-top: 48px;
+}
+
+/* 게임 리스트 */
+.game-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    padding-top: 48px;
+}
+
+/* 리뷰 리스트 */
+.review-list{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}

@@ -10,7 +10,7 @@ export default function RankingItem(props) {
                 <div className="rankNum">
                     {props.rank}
                 </div>
-                <div className="gameDescription">
+                <div className="game-description">
                     <div className="gameName">
                         {props.gameName}
                     </div>

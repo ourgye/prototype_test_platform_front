@@ -63,7 +63,7 @@ function Topbar() {
   //스크롤 위치 갱신
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const updateScroll = () => {
     setScrollY(window.scrollY || document.documentElement.scrollTop);
@@ -88,7 +88,7 @@ function Topbar() {
         {/* 내비게이션 코드 수정 필요 */}
         <ul id="nav">
           <NavItems name="게임들" games={true}/>
-          <NavItems name="마이페이지" href="." />
+          <NavItems name="마이페이지" href="/mypage" />
           <NavItems name="사용자 가이드" href="." />
         </ul>
       </div>

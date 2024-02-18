@@ -22,11 +22,12 @@
     font-style: italic;
     font-weight: 700;
 }
-.gameDescription{
+
+.game-description{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    text-align: left;
+    align-items: flex-start
 }
 
 .rankingItem .gameName{
