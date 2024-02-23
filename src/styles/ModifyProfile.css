@@ -1,0 +1,20 @@
+.modify-profile-container{
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    margin-top: 20px;
+}
+
+.profile-text{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+
+}
+.category-selection{
+    display: flex;
+    flex-direction: column;
+    margin-top: 36px;
+    gap: 12px;
+}

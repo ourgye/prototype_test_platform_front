@@ -4,6 +4,7 @@
     border-radius: 4px;
     padding: 10px 12px;
     box-sizing: border-box;
+
 }
 .error{
     border-color: var(--accent);

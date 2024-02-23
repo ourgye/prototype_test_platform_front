@@ -5,11 +5,12 @@ import { ReactComponent as SearchIcon } from "../icons/search.svg";
 import { useEffect, useState } from "react";
 
 import GameCategoryDropdown from "./GameCategoryDropdown";
+import { getUserSession, logout } from "../api/User";
 import { Link } from "react-router-dom";
 
 function NavItems(props) {
   const [showGames, setShowGames] = useState(false);
-  const onClickGames = ()=>{setShowGames(!showGames)}
+  const onClickGames = () => { setShowGames(!showGames) }
 
   return (
     <Link className="navItem" to={props.href} onClick={props.games? onClickGames: undefined}>
@@ -35,6 +36,7 @@ function TopbarBtn(props) {
         props.color == "yellow" ? "btnYellow TopbarBtn" : "btnGrey TopbarBtn"
       }
       to={props.href}
+      onClick={props.onClick}
     >
       {props.name}
     </Link>
@@ -43,7 +45,8 @@ function TopbarBtn(props) {
 
 function TopbarLogin() {
   return (<>
-    <div className="tobparProfile"></div>
+    <div className="topbarProfile"></div>
+    <TopbarBtn name="로그아웃" onClick={() => { logout(); window.location.reload(); }} />
     <TopbarBtn name="프로토타입 제작" color="yellow" />
   </>
   );
@@ -63,7 +66,7 @@ function Topbar() {
   //스크롤 위치 갱신
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState(getUserSession());
 
   const updateScroll = () => {
     setScrollY(window.scrollY || document.documentElement.scrollTop);
@@ -95,7 +98,7 @@ function Topbar() {
       <div className="topbarRight">
         <SearchBox />
         <div className="buttons">
-          {isLogin? <TopbarLogin/> : <TopbarNLogin/>}
+          {user? <TopbarLogin/> : <TopbarNLogin/>}
         </div>
       </div>
     </div>
