@@ -1,4 +1,4 @@
-const category = [
+export const categoryList = [
   "action", // 액션
   "shooting", // 슈팅
   "arcade_rhythm", // 아케이드 및 리듬
@@ -17,4 +17,21 @@ const category = [
   "sports_racing", // 스포츠 및 레이싱
 ];
 
-export default category;
+export const categoryListKR = [
+  "액션",
+  "슈팅",
+  "아케이드 및 리듬",
+  "군사 전략",
+  "어드벤처",
+  "비주얼 노벨",
+  "퍼즐",
+  "로그라이크",
+  "롤플레잉",
+  "시뮬레이션",
+  "농업 및 제작",
+  "연애 시뮬레이션",
+  "턴제 전략",
+  "전략",
+  "실시간 전략",
+  "스포츠 및 레이싱",
+];

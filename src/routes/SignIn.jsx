@@ -46,14 +46,15 @@ function EmailLogin() {
     setPw(e.target.value)
   }
 
-  const { mutate, isLoading, isError, error, isSuccess } = useMutation({
+  const { mutate: handleLogin, isLoading, isError, error, isSuccess } = useMutation({
     mutationFn: userLogin,
-    onSuccess: () => {
+    onSuccess: (res) => {
+      console.log("success")
       if (!state) return navigate('/');
       return navigate(state);
     },
-    onError: () => {
-      return alert("아이디 혹은 비밀번호를 확인해주세요.")
+    onError: (error) => {
+      return alert(error.message)
     }
   });
 
@@ -61,7 +62,7 @@ function EmailLogin() {
     <div>
       <h1>회원 로그인</h1>
       <p>GAME PROTO에 오신 걸 환영합니다.</p>
-      <Form method="" action="" onSubmit={() => mutate({ email, pw })}>
+      <Form method="" action="" onSubmit={() => handleLogin({ email, pw })}>
         <div className="loginInput">
           <InputBox type="email" placeholder={"이메일"} width={"360px"} name="email" onChange={handleEmailChange} />
           <InputBox type="password" placeholder={"비밀번호"} width={"360px"} name="pw" onChange={handlePwChange} />

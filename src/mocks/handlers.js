@@ -25,7 +25,30 @@ export const handlers = [
       { status: 200 }
     );
   }),
-  http.get("/signin", async ({ request }) => {
-    console.log("is it working? ");
+  http.get("/emailcheck", async ({ request }) => {
+    const url = new URL(request.url);
+
+    const email = url.searchParams.get("email");
+    if (email === "hi@hi.com")
+      return HttpResponse.json(
+        {
+          userEmailChecked: false,
+        },
+        { status: 200 }
+      );
+    return HttpResponse.json(
+      {
+        userEmailChecked: true,
+      },
+      { status: 200 }
+    );
+  }),
+  http.post("/signup", async ({ request }) => {
+    const newUser = await request.json();
+    //console.log(newUser);
+    return HttpResponse.json(
+      { message: "register successed" },
+      { status: 201 }
+    );
   }),
 ];

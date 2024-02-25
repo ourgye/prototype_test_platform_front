@@ -35,6 +35,7 @@
 
 #profileImageInput{
     visibility: hidden;
+    height: 0;
 }
 
 /* 이미지는 cover */

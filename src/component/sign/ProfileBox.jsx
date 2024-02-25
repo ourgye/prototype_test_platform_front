@@ -4,6 +4,7 @@ import { ReactComponent as ProfileIcon } from '../../icons/profile_default.svg';
 import './ProfileBox.css'
 import { useState } from 'react';
 
+// 사진 하나만 선택하도록
 function ProfileBox() { 
     const [selectedImage, setSelectedImage] = useState([]);
     const [selectedImageName, setSelectedImageName] = useState();
@@ -43,7 +44,11 @@ function ProfileBox() {
         <div className='profileImage'>
             <img src={selectedImage} alt={selectedImageName} id="profileImage" />
         </div>
-    ): (<ProfileIcon width={'128px'} height={'128px'} className="profileIcon" />);
+    ) : (
+        <div className='profileImage'>
+            <ProfileIcon width='128px' height='128pxs\' className="profileIcon" />
+        </div>
+    );
     
     
     return (<Form className='profileImageBox'>

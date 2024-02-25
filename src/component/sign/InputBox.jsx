@@ -9,6 +9,7 @@ function InputBox(props) {
                 className={`inputBox ${props.error ? 'error' : ''}`}
                 placeholder={props.placeholder}
                 onChange={props.onChange}
+                disabled={props.disabled ?? false}
             />
         </>
     )

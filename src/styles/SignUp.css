@@ -1,12 +1,12 @@
 h1{
-    font-size: 32px;
+    font-size: 36px;
     margin: 0;
     padding: 0;
 }
 p{
     font-size: 16px;
 }
-.signUpTab{
+.signup-tab{
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -16,6 +16,63 @@ p{
     transform: translate(-50%);
     
     margin-top: 90px;
+    padding-bottom: 90px;
     width: 360px;
     text-align: left;
+}
+.signup-input-tab{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 16px;
+}
+
+/* 인풋 아래 메세지 */
+.box-under{
+    font-size: 14px;
+}
+.input-alert{
+    color: var(--accent);
+}
+.input-correct{
+    color: green;
+}
+
+/* 이메일 */
+.email-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.email-duplication-btn{
+    width: 50px;
+    padding: 4px;
+    cursor: pointer;
+    background-color: var(--background);
+    border-radius: 4px;
+    text-align: center;
+}
+.email-duplication-btn:hover{
+    font-weight: 600;
+}
+/* 유저 바이오 textarea */
+.user-bio-input{
+    width: 360px;
+    height: 120px;
+    resize: none;
+    font-size: 16px;
+    font-family: inherit;
+    border: 2px solid #D9D9D9;
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+}
+
+.categories-selection-tab{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 36px;
 }
