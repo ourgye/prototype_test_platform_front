@@ -72,7 +72,7 @@ a{
 .btnGrey{
     background-color: var(--background);
 }
-.buttons{
+.top-bar-buttons{
     display: flex;
     align-items: center;   
     gap: 8px;

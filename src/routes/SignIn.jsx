@@ -54,7 +54,8 @@ function EmailLogin() {
       return navigate(state);
     },
     onError: (error) => {
-      return alert(error.message)
+      alert(error.message);
+      return navigate(state);
     }
   });
 

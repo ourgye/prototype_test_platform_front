@@ -9,6 +9,7 @@ import FollowingItem from "../component/mypage/FollowingItem";
 
 import '../styles/MyPage.css'
 import { useState } from "react";
+import { useRouteLoaderData } from "react-router-dom";
 
 function WhereAmI(props) {
     return (
@@ -74,6 +75,7 @@ function FavGameList() {
 }
 
 function MyPage() {
+    const user = useRouteLoaderData('mypageroot');
     const [whichClicked, setWhichClicked] = useState(4);
 
     const DisplayedList = () => {
@@ -91,15 +93,12 @@ function MyPage() {
 
 
     return (<>
-        <TopBar/>
-        <div className="mainContainer">
-            <WhereAmI />
-            <div className="mypage-container">
-                <UserProfile />
-                <div className="mypage-inner-tab">
-                    <UserProfileNav whichClicked={whichClicked} onClick={setWhichClicked} />
-                    {DisplayedList()}
-                </div>
+        <WhereAmI />
+        <div className="mypage-container">
+            <UserProfile username={user.name} userbio={user.bio} imgPath={user.imgPath} />
+            <div className="mypage-inner-tab">
+                <UserProfileNav whichClicked={whichClicked} onClick={setWhichClicked} />
+                {DisplayedList()}
             </div>
         </div>
     </>);

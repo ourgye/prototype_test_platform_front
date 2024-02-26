@@ -7,7 +7,7 @@ export const USER_EMAIL_DUPLICATION_KEY = "user_email_check";
 export function getUserSession() {
   const user = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
 
-  return user;
+  return JSON.parse(user);
 }
 
 // 유저 로그인 api
@@ -82,13 +82,47 @@ export async function signUp({ newUser }) {
 }
 
 //회원 정보 가져오기
-export async function getUserInfo() {}
+export async function getUserInfo() {
+  const userId = getUserSession();
+  const requestURL = `/user/info/${userId["user_id"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw Error;
+  }
+}
 
 //유저 정보 불러오기 : 이름 소개 이미지
 export async function getUserSummaryInfo() {}
 
 //회원 정보 수정
-export async function updateUserInfo() {}
+export async function updateUserInfo({ user }) {
+  const userId = getUserSession();
+  const requestURL = `/user/info/${userId["user_id"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw Error;
+  }
+}
 
 //소개글 수정
 export async function updateUserBio() {}

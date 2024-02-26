@@ -4,11 +4,12 @@ import { ReactComponent as FavIcon } from "../../icons/favorite_fill.svg";
 import { ReactComponent as VisitedIcon } from "../../icons/people_black.svg";
 import { ReactComponent as GameIcon } from '../../icons/videogame_asset.svg';
 import { ReactComponent as ReviewIcon } from "../../icons/review_star.svg";
+import { Link } from "react-router-dom";
 
 function UserProfileImage(props) {
     return (<div className="user-profile-image-container">
-        <div className="user-profile-image"><image width={"64px"} height={"64px"} /></div>
-        <button className="user-profile-modify-button">프로필 수정</button>
+        <div className="user-profile-image"><image width={"64px"} height={"64px"} path={props.path} /></div>
+        <Link className="user-profile-modify-button" to={'modify'}>프로필 수정</Link>
     </div>);
 }
 
@@ -39,13 +40,14 @@ function UserInfoBox(props) {
 }
 
 function UserProfile(props) { 
+    
     return (
         <div className="user-profile-container">
-            <UserProfileImage />
+            <UserProfileImage path={props.imgPath} />
             <div className="user-infomation">
                 <div className="user-name-bio">
-                    <div className="username"> 사용자 이름</div>
-                    <div className="userbio">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae beatae obcaecati dicta numquam qui similique doloribus corrupti eum ipsam ad aspernatur perferendis temporibus corporis harum incidunt cumque quos, a non!</div>
+                    <div className="username">{props.username}</div>
+                    <div className="userbio">{props.userbio}</div>
                 </div>
                 <UserInfoBox/>
             </div>

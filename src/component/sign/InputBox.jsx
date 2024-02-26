@@ -10,6 +10,7 @@ function InputBox(props) {
                 placeholder={props.placeholder}
                 onChange={props.onChange}
                 disabled={props.disabled ?? false}
+                defaultValue={props.defaultValue}
             />
         </>
     )

@@ -97,7 +97,7 @@ function Topbar() {
       </div>
       <div className="topbarRight">
         <SearchBox />
-        <div className="buttons">
+        <div className="top-bar-buttons">
           {user? <TopbarLogin/> : <TopbarNLogin/>}
         </div>
       </div>

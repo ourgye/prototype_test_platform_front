@@ -11,6 +11,7 @@
 .user-infomation{
     display: flex;
     flex-direction: column;
+    width: inherit;
     justify-content: space-between;
     gap: 16px;
     padding: 16px 32px;
@@ -72,6 +73,7 @@
     border: 1px solid black;
 }
 
+/* 프로필 수정 버튼 */
 .user-profile-modify-button{
     font-family: inherit;
     font-size: 16px;
@@ -79,6 +81,7 @@
     padding: 8px 16px;
     border: none;
     border-radius: 8px;
+    background-color: var(--background);
 }
 
 .user-profile-modify-button:hover{

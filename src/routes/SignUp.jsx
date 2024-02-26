@@ -308,7 +308,7 @@ function SignUpFill() {
         </div>
         <div>
           국가<br/>
-          <InputDropDown width={"360px"} optionList={countryList} defaultValue={"대한민국"} onChange={handleNationChange} />
+          <InputDropDown width={"360px"} optionList={countryList} onChange={handleNationChange} />
         </div>
         <div>
           소개글<br/>
@@ -317,13 +317,13 @@ function SignUpFill() {
         <div className="categories-selection-tab">
           <div>
             선호하는 카테고리 1*<br/>
-            <InputDropDown width={"360px"} optionList={categoryListKR} defaultValue={categoryListKR[0]} onChange={handleFav1Change} />
+            <InputDropDown width={"360px"} optionList={categoryListKR} onChange={handleFav1Change} />
           </div><div>
             선호하는 카테고리 2*<br/>
-              <InputDropDown width={"360px"} optionList={categoryListKR} defaultValue={categoryListKR[1]} onChange={handleFav2Change} />
+              <InputDropDown width={"360px"} optionList={categoryListKR}  onChange={handleFav2Change} />
           </div><div>
             선호하는 카테고리 3*<br/>
-              <InputDropDown width={"360px"} optionList={categoryListKR} defaultValue={categoryListKR[2]} onChange={handleFav3Change} />
+              <InputDropDown width={"360px"} optionList={categoryListKR} onChange={handleFav3Change} />
           </div>
         </div>
       </div>
