@@ -11,11 +11,16 @@ import Games from "./routes/Games";
 import SignUp from "./routes/SignUp.jsx";
 import MyPage from "./routes/MyPage.jsx";
 import ModifyProfile from "./routes/ModifyProfile.jsx";
+import NewProject from "./routes/NewProject.jsx";
+import Proto from "./routes/Proto.jsx";
+import ProtoRoot from "./routes/ProtoRoot.jsx";
+import GameDetail from "./routes/GameDetail.jsx";
 
 // tansack query
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getUserInfo, getUserSession } from "./api/User.js";
 import MyPageRoot from "./routes/MyPageRoot.jsx";
+import NewGame from "./routes/NewGame.jsx";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +60,10 @@ function App() {
       element: <Games />,
     },
     {
+      path: "game/:gameid",
+      element: <GameDetail />,
+    },
+    {
       path: "signup",
       element: <SignUp />,
       // 로그인 완료 시 메인 페이지로 리다이렉트
@@ -66,7 +75,7 @@ function App() {
       },
     },
     {
-      path: "/mypage",
+      path: "mypage",
       element: <MyPageRoot />,
       id: "mypageroot",
       loader: async () => {
@@ -92,15 +101,32 @@ function App() {
           element: <MyPage />,
         },
         {
-          path: "/mypage/modify",
+          path: "modify",
           element: <ModifyProfile />,
-          // 미로그인 시 로그인 페이지로 리다이렉트
-          // loader: async () => {
-          //   const userId = getUserSession();
-          //   if (!userId) return redirect("/signin");
+        },
+      ],
+    },
+    {
+      path: "proto",
+      element: <ProtoRoot />,
+      loader: async () => {
+        const userId = getUserSession();
+        if (!userId) return redirect("/signin");
 
-          //   return null;
-          // },
+        return null;
+      },
+      children: [
+        {
+          index: true,
+          element: <Proto />,
+        },
+        {
+          path: "newproject",
+          element: <NewProject />,
+        },
+        {
+          path: "newgame",
+          element: <NewGame />,
         },
       ],
     },

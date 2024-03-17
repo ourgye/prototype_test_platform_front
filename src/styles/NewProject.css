@@ -1,0 +1,164 @@
+.new-project-tab{
+    margin: 20px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+.new-project-tab h1{
+    align-self: flex-start;
+    margin: 20px;
+}
+
+/* progress tab*/
+.progress-tab{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.progress-line{
+    border-top: 4px solid var(--primary);
+    width: 400px;
+    /* 줄이 가운데로 가게하기위해 */
+    padding-bottom: 20px;
+}
+.line-dotted{
+    border-top: 4px dashed var(--primary);
+}
+
+.progress-circle-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 150px;
+}
+
+.progress-circle{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--background);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.done{
+    background-color: var(--primary);
+    border: 4px solid var(--primary);
+}
+
+.now{
+    border: 4px solid var(--primary);
+}
+
+/* 프로젝트 사용자 인풋 */
+.new-project-input-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: start;
+    gap: 16px;
+    font-size: 20px;
+    margin: 20px;
+}
+
+.game-upload-thumbnail{
+    width: 553px;
+    height: 312px;
+    background-color: var(--background);
+    border-radius: 4px;
+}
+
+.input-date{
+    border: 2px solid #d9d9d9;
+    border-radius: 4px;
+    font: inherit;
+    padding: 4px 10px;
+    width: 120px;
+    font-size: 16px;
+    padding: 4px 10px;
+}
+/* 테스터 모집 기간 */
+.tester-period{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.game-description-editor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-family: inherit;
+    padding: 4px;
+    font-size: 16px;
+    width: inherit;
+    height: 1000px;
+    resize: none;
+    margin-bottom: 20px;
+}
+.editor-wrappe{
+    width: max-content;
+}
+/* 앞부분 (섬네일 이미지랑 테스트 설정) */
+.thumbnail-and-test-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+}
+.new-project-input-wrapper h2{
+    text-align: start;
+    margin: 4px;
+}
+
+
+/* 게임 테스트 */
+.test-input-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 게임 업로드 */
+.game-upload-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+    gap: 16px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* 버튼 */
+.next-button{
+    margin: 48px;
+}
+
+
+.game-upload-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--primary);
+    padding: 20px;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.game-upload-button:hover{
+    /* 버튼 눌렀을 때도 css 적용해야함 */
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px gray;
+}

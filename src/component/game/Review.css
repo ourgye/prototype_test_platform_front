@@ -1,0 +1,73 @@
+.game-review-wrapper{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: var(--background);
+    gap: 16px;
+    padding: 32px;
+    width: 960px;
+    border-radius: 16px;
+}
+
+/* 게임 리뷰 상단 */
+.game-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.game-header h2{
+    margin: 0;
+    font-size: 24px;
+}
+
+.user-information{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline ;
+    gap: 16px;
+}
+.review-content{
+    text-align: start;
+    word-break: keep-all;
+    padding: 0px 4px;
+    line-height: 2em;
+}
+/* 피드백 완료시*/
+.feedback-done{
+    border: 4px solid #39DB00;
+}
+.feedback-done-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #39DB00;
+    padding: 2px 10px;
+    gap:8px;
+    font-size: 12px;
+    border-radius: 12px;
+    text-align: center;
+    line-height: 0%;
+    /* margin: 0px 8px; */
+}
+.feedback-not-done{
+    background-color: #FB8585;
+    border: 4px solid #FB8585;
+}
+.feedback-and-count{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* 테스터 피드백 요약 */
+.tester-feedback-summary{
+    background-color: var(--primary);
+    box-shadow: 4px 4px 10px rgb(198, 198, 198);
+}
+.clickable{
+    cursor: pointer;
+}

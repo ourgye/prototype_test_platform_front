@@ -10,7 +10,7 @@
     border-radius: 8px;
     background: var(--primary);
 }
-.description{
+.rank-game-item-tab{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +23,7 @@
     font-weight: 700;
 }
 
-.game-description{
+.rank-item-game-description{
     display: flex;
     flex-direction: column;
     text-align: left;

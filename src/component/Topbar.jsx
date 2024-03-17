@@ -47,7 +47,7 @@ function TopbarLogin() {
   return (<>
     <div className="topbarProfile"></div>
     <TopbarBtn name="로그아웃" onClick={() => { logout(); window.location.reload(); }} />
-    <TopbarBtn name="프로토타입 제작" color="yellow" />
+    <TopbarBtn name="프로토타입 제작"  href='/proto' color="yellow" />
   </>
   );
 }

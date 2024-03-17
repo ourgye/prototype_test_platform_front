@@ -6,11 +6,11 @@ export default function RankingItem(props) {
             <div className="rankingThumbnail">
                 <img src={props.imgsrc} alt="rankingThumbnail" />
             </div>
-            <div className="description">
+            <div className="rank-game-item-tab">
                 <div className="rankNum">
                     {props.rank}
                 </div>
-                <div className="game-description">
+                <div className="rank-item-game-description">
                     <div className="gameName">
                         {props.gameName}
                     </div>

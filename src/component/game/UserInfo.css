@@ -1,0 +1,31 @@
+.posted-user-wrapper{
+    position: relative;
+    font-size: 24px;
+    padding: 4px;
+    width: 150px;
+    cursor: pointer;
+}
+.posted-user:hover{
+    font-weight: bold;
+}
+
+.user-follow{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+
+    gap: 4px;
+    border: 1px solid var(--background);
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    left: 150px;
+    top: 10px;
+}
+
+.user-follow:hover{
+    font-weight: bold;
+}
