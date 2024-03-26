@@ -1,5 +1,3 @@
-import { redirect } from "react-router-dom";
-
 const USER_SESSION_STORAGE_KEY = "user_info";
 export const USER_EMAIL_DUPLICATION_KEY = "user_email_check";
 
@@ -24,8 +22,8 @@ export async function userLogin({ email, pw }) {
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-
-    const user_id = await res.json();
+    // json 이 아닌 text로 들어옴
+    const user_id = await res.text();
     sessionStorage.setItem(USER_SESSION_STORAGE_KEY, JSON.stringify(user_id));
 
     return user_id;
@@ -100,7 +98,22 @@ export async function getUserInfo() {
 }
 
 //유저 정보 불러오기 : 이름 소개 이미지
-export async function getUserSummaryInfo() {}
+export async function getUserSummaryInfo() {
+  const userId = getUserSession();
+  const requestURL = `/user/summary/${userId["user_id"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw Error;
+  }
+}
 
 //회원 정보 수정
 export async function updateUserInfo({ user }) {
@@ -125,7 +138,45 @@ export async function updateUserInfo({ user }) {
 }
 
 //소개글 수정
-export async function updateUserBio() {}
+export async function updateUserBio() {
+  const userId = getUserSession();
+  const requestURL = `/user/bio/${userId["user_id"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw Error;
+  }
+}
 
 //닉네임 수정
-export async function updateUserName() {}
+export async function updateUserName() {
+  const userId = getUserSession();
+  const requestURL = `/user/name/${userId["user_id"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw Error;
+  }
+}

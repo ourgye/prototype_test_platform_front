@@ -1,4 +1,4 @@
-.CarouselContainer{
+.carousel-container{
     width: 100%;
     padding-top: 24px;
     padding-bottom: 24px;
@@ -9,11 +9,11 @@
     font-weight: 400;   
     padding: 0 36px;
 }
-.mainCarousel{
+.main-carousel{
     overflow: hidden;
     padding: 24px 0px;   
 }
-.mainCarousel .swiper-slide{
+.main-carousel .swiper-slide{
     width: fit-content;
 }
 

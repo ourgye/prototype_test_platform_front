@@ -5,14 +5,9 @@ import Carousel from "../component/Carousel";
 function Main() {
   return (
     <>
-      <header>
-        <TopBar />
-      </header>
-      <div className="mainContainer">
         <Banner />
         <Carousel ai={true} title={"AI 추천 게임"} />
-        <Carousel rank={true} title={"Top10"} />
-      </div>
+        <Carousel rank={true} title={"TOP 10"} />
     </>
   );
 }

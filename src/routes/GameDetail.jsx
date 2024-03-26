@@ -64,6 +64,7 @@ function SearchReview() {
 }
 
 function TesterReview() {
+    const [isExpand, setIsExpand] = useState(true); 
     const testOwner =
         <>
             <SummaryReview />
@@ -75,7 +76,8 @@ function TesterReview() {
 
     return (
         <div className="game-detail-review-section">
-            <SectionHeader title="테스터 리뷰" />
+            <SectionHeader title="테스터 리뷰" onClickArrow={setIsExpand} isExpand={isExpand} />
+            {isExpand &&
             <div className="game-detail-review-wrapper">
                 {tester}
                 {/* {testOwner} */}
@@ -83,7 +85,7 @@ function TesterReview() {
                 <Review feedbackDone={true} owner={true} />
                 <Review feedbackDone={false} owner={true} />
                 <Review />
-            </div>
+            </div>}
         </div>
     )
 }
@@ -142,7 +144,8 @@ function GameDetail() {
                         </div>
                     </div>
                     <div className="game-detail-detail-section">
-                            <SectionHeader title="게임 설명" />
+                        <SectionHeader title="게임 설명" />
+                        <div></div>
                     </div>
                    <TesterReview />
                 </div>

@@ -20,9 +20,9 @@ export default function Carousel(props) {
           slideItems
       ));
 
-    return (<div className='CarouselContainer'>
+    return (<div className='carousel-container'>
         <div className="title">{props.title}</div>
-        <div className="mainCarousel"> 
+        <div className="main-carousel"> 
             <Swiper freeMode={{ enable: true }} modules={[FreeMode]} spaceBetween={24} slidesPerView={'auto'} slidesOffsetAfter={32} slidesOffsetBefore={32}>
             {slideList}
             </Swiper>

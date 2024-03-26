@@ -21,6 +21,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getUserInfo, getUserSession } from "./api/User.js";
 import MyPageRoot from "./routes/MyPageRoot.jsx";
 import NewGame from "./routes/NewGame.jsx";
+import RouterRoot from "./routes/RouterRoot.jsx";
 
 const queryClient = new QueryClient();
 
@@ -35,98 +36,103 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Main />,
-      children: [],
-    },
-    {
-      path: "signin",
-      element: <Sign />,
-      action: async (queryClient) => {
-        return async (request, params) => {
-          // 임시로 해놓음. 안해놓으면 오류남.
-          return null;
-        };
-      },
-      // 로그인 완료 시 메인 페이지로 리다이렉트
-      loader: async () => {
-        const userId = getUserSession();
-        if (userId) return redirect("/");
-
-        return null;
-      },
-    },
-    {
-      path: "games",
-      element: <Games />,
-    },
-    {
-      path: "game/:gameid",
-      element: <GameDetail />,
-    },
-    {
-      path: "signup",
-      element: <SignUp />,
-      // 로그인 완료 시 메인 페이지로 리다이렉트
-      loader: async () => {
-        const userId = getUserSession();
-        if (userId) return redirect("/");
-
-        return null;
-      },
-    },
-    {
-      path: "mypage",
-      element: <MyPageRoot />,
-      id: "mypageroot",
-      loader: async () => {
-        //미로그인 시 로그인 페이지로 리다이렉트
-        const userId = getUserSession();
-        if (!userId) return redirect("/signin");
-
-        try {
-          const res = await getUserInfo();
-
-          if (!res.ok) throw new Error();
-          const user = await res.json();
-          // console.log(user);
-          return user;
-        } catch (error) {
-          console.log(error);
-          return null;
-        }
-      },
+      element: <RouterRoot />,
       children: [
         {
           index: true,
-          element: <MyPage />,
+          element: <Main />,
         },
         {
-          path: "modify",
-          element: <ModifyProfile />,
-        },
-      ],
-    },
-    {
-      path: "proto",
-      element: <ProtoRoot />,
-      loader: async () => {
-        const userId = getUserSession();
-        if (!userId) return redirect("/signin");
+          path: "signin",
+          element: <Sign />,
+          action: async (queryClient) => {
+            return async (request, params) => {
+              // 임시로 해놓음. 안해놓으면 오류남.
+              return null;
+            };
+          },
+          // 로그인 완료 시 메인 페이지로 리다이렉트
+          loader: async () => {
+            const userId = getUserSession();
+            if (userId) return redirect("/");
 
-        return null;
-      },
-      children: [
-        {
-          index: true,
-          element: <Proto />,
+            return null;
+          },
         },
         {
-          path: "newproject",
-          element: <NewProject />,
+          path: "games",
+          element: <Games />,
         },
         {
-          path: "newgame",
-          element: <NewGame />,
+          path: "game/:gameid",
+          element: <GameDetail />,
+        },
+        {
+          path: "signup",
+          element: <SignUp />,
+          // 로그인 완료 시 메인 페이지로 리다이렉트
+          loader: async () => {
+            const userId = getUserSession();
+            if (userId) return redirect("/");
+
+            return null;
+          },
+        },
+        {
+          path: "mypage",
+          element: <MyPageRoot />,
+          id: "mypageroot",
+          loader: async () => {
+            //미로그인 시 로그인 페이지로 리다이렉트
+            const userId = getUserSession();
+            if (!userId) return redirect("/signin");
+
+            try {
+              const res = await getUserInfo();
+
+              if (!res.ok) throw new Error();
+              const user = await res.json();
+              // console.log(user);
+              return user;
+            } catch (error) {
+              console.log(error);
+              return null;
+            }
+          },
+          children: [
+            {
+              index: true,
+              element: <MyPage />,
+            },
+            {
+              path: "modify",
+              element: <ModifyProfile />,
+            },
+          ],
+        },
+        {
+          path: "proto",
+          element: <ProtoRoot />,
+          loader: async () => {
+            const userId = getUserSession();
+            if (!userId) return redirect("/signin");
+
+            return null;
+          },
+          children: [
+            {
+              index: true,
+              element: <Proto />,
+            },
+            {
+              path: "newproject",
+              element: <NewProject />,
+            },
+            {
+              path: "newgame",
+              element: <NewGame />,
+            },
+          ],
         },
       ],
     },

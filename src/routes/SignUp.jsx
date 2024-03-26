@@ -83,8 +83,8 @@ function ProfileBox({selectedImage, setSelectedImage}) {
 }
 
 function EmailSignUp({onClickButton}) {
-  const [email, setEmail] = useState('');
-  const [isEmailUnique, setIsEmailUnique] = useState(undefined);
+  const [email, setEmail] = useState('game@game.com');
+  const [isEmailUnique, setIsEmailUnique] = useState(true);
   const [pw, setPw] = useState('');
   const [pwCheck, setpwCheck] = useState('');
   const [isPwSame, setIsPwSame] = useState(undefined);
@@ -212,7 +212,7 @@ function SignUpFill() {
 
   const ageList = [...Array(99)].map((_, i) => { return i+1 });
   const genderList = ["남성", "여성", "선택 안함"];
-  const genderListEn = ['male', 'female', 'none'];
+  const genderListEn = ['MALE', 'FEMALE', 'NONE'];
   const countryList = getCountryList();
 
   const [selectedImage, setSelectedImage] = useState('');
