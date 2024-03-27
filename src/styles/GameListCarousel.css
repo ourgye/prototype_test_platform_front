@@ -1,20 +1,21 @@
-.gameListContainer{
+.game-category-list-container{
     display: flex;
     padding: 24px 36px;
     flex-direction: column;
 }
 
-.gameList{
+.game-category-list{
     display: grid;
     grid-template-columns: repeat(4, 300px);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap:36px;
     align-items: center;
     justify-content: center;
+    width: inherit;
     padding:24px;
 }
 
-.pagination{
+.games-pagination{
     display: flex;
     flex-direction: row;
     align-self: center;
@@ -22,7 +23,7 @@
     gap: 32px;
 }
 
-.Arrow{
+.arrow{
     display: flex;
     align-items: center;
     justify-content: center;

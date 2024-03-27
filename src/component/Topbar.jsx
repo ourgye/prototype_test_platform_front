@@ -2,7 +2,7 @@ import "../styles/Topbar.css";
 import logo from "../logo.svg";
 import logoWhite from '../logo_white.svg'
 import { ReactComponent as SearchIcon } from "../icons/search.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GameCategoryDropdown from "./GameCategoryDropdown";
 import { Link } from "react-router-dom";
 // api 
@@ -53,7 +53,10 @@ function TopbarBtn(props) {
 function TopbarLogin() {
   return (<>
     <div className="topbar-user-profile"></div>
-    <TopbarBtn name="로그아웃" onClick={() => { logout(); window.location.reload(); }} />
+    <TopbarBtn name="로그아웃" onClick={() => {
+      logout();
+      window.location.reload();
+    }} />
     <TopbarBtn name="프로토타입 제작"  href='/proto' color="yellow" />
   </>
   );
@@ -75,7 +78,7 @@ function Topbar() {
   //스크롤 위치 갱신
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [user, setUser] = useState(getUserSession());
+  const user = getUserSession();
 
   const updateScroll = () => {
     setScrollY(window.scrollY || document.documentElement.scrollTop);
@@ -98,7 +101,7 @@ function Topbar() {
       <div className="topbar-left">
         <Link to="/"><img src={isScrolled? logoWhite: logo} /></Link>
         <ul id="nav">
-          <NavItems name="게임들" games={true}/>
+          <NavItems name="게임들" games={true} href="#"/>
           <NavItems name="마이페이지" href="/mypage" />
           <NavItems name="사용자 가이드" href="." />
         </ul>

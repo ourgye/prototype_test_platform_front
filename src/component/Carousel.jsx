@@ -12,16 +12,36 @@ import { FreeMode } from 'swiper/modules';
 
 import RecommendItem from './GameItem';
 import RankingItem from './RankingItem';
+import { Link } from 'react-router-dom';
+import { categoryListKR, categoryList } from '../category';
 
+function gameItem(rank, gameName, category, gameId) {
+    const gameCategory = categoryListKR[categoryList.indexOf(category)];
 
-export default function Carousel(props) {
-    const slideItems = props.ai ? <SwiperSlide><RecommendItem gameName={"게임 이름"}></RecommendItem></SwiperSlide> : (props.rank ? <SwiperSlide><RankingItem rank={1} gameName={"게임 이름"} category={"액션"} ></RankingItem></SwiperSlide> : null)
-    const slideList = Array.from({ length: 10 }, (_, index) => (
-          slideItems
-      ));
+    return (
+        <SwiperSlide>
+            <Link to={"/game/" + gameId} preventScrollReset={false}>
+                <RankingItem rank={rank} gameName={gameName} category={gameCategory} />
+            </Link>
+        </SwiperSlide>
+    );
+}
+
+function gameItemAI(gameName) {
+    return (
+        <SwiperSlide>
+            <RecommendItem gameName={gameName} />
+        </SwiperSlide>
+    );
+}
+
+export default function Carousel({title, data}) {
+    const slideList = data ? data.gameList.map((game, index) => { 
+        return gameItem(index + 1, game.game_name, game.category_list[0].category_name, game.game_id);
+    }) : null;
 
     return (<div className='carousel-container'>
-        <div className="title">{props.title}</div>
+        <div className="title">{title}</div>
         <div className="main-carousel"> 
             <Swiper freeMode={{ enable: true }} modules={[FreeMode]} spaceBetween={24} slidesPerView={'auto'} slidesOffsetAfter={32} slidesOffsetBefore={32}>
             {slideList}

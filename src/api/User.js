@@ -5,6 +5,10 @@ export const USER_EMAIL_DUPLICATION_KEY = "user_email_check";
 export function getUserSession() {
   const user = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
 
+  if (!user) {
+    return "";
+  }
+
   return JSON.parse(user);
 }
 
@@ -60,7 +64,7 @@ export async function checkEamilduplication({ email }) {
 }
 
 //유저 회원가입
-export async function signUp({ newUser }) {
+export async function signUp(newUser) {
   try {
     const res = await fetch("/signup", {
       method: "POST",
@@ -71,7 +75,6 @@ export async function signUp({ newUser }) {
     });
 
     if (!res.ok) throw new Error(res.statusText);
-    console.log(res);
     return res;
   } catch (error) {
     console.log("An error occurred during sign up", error);
@@ -138,7 +141,7 @@ export async function updateUserInfo({ user }) {
 }
 
 //소개글 수정
-export async function updateUserBio() {
+export async function updateUserBio(bio) {
   const userId = getUserSession();
   const requestURL = `/user/bio/${userId["user_id"]}`;
 
@@ -148,7 +151,7 @@ export async function updateUserBio() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ bio: bio }),
     });
 
     if (!res.ok) throw new Error(res.statusText);
@@ -160,7 +163,7 @@ export async function updateUserBio() {
 }
 
 //닉네임 수정
-export async function updateUserName() {
+export async function updateUserName(name) {
   const userId = getUserSession();
   const requestURL = `/user/name/${userId["user_id"]}`;
 
@@ -170,7 +173,7 @@ export async function updateUserName() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ name: name }),
     });
 
     if (!res.ok) throw new Error(res.statusText);

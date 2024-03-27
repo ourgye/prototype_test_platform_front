@@ -26,4 +26,5 @@ yarn-error.log*
 /src/mocks
 
 # temp file
-/src/temp_image
+/src/image
+/src/firebase

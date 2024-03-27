@@ -1,27 +1,17 @@
-import TopBar from "../component/Topbar";
 import Banner from "../component/Banner";
 import GameListCarousel from "../component/GameListCarousel";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useParams, useRouteLoaderData } from 'react-router-dom';
+import { categoryList, categoryListKR } from "../category";
 
 function Games() {
-  const queryClient = useQueryClient();
-
-  const query = useQuery({
-    queryKey: ["games"],
-    queryFn: () => {
-      fetch("/games");
-    },
-  });
-
+  const gameList = useRouteLoaderData("categorygames");
+  const categoryNameEn = useParams();
+  const categoryName = categoryListKR[categoryList.indexOf(categoryNameEn["game_category"])];
+  
   return (
     <>
-      <header>
-        <TopBar />
-      </header>
-      <div className="mainContainer">
-        <Banner />
-        <GameListCarousel title={"카테고리 이름"} />
-      </div>
+      <Banner />
+      <GameListCarousel title={categoryName} data={gameList} />
     </>
   );
 }

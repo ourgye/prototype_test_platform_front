@@ -46,11 +46,14 @@ function EmailLogin() {
     setPw(e.target.value)
   }
 
+  
   const { mutate: handleLogin, isLoading, isError, error, isSuccess } = useMutation({
     mutationFn: userLogin,
     onSuccess: (res) => {
       console.log("success")
-      if (!state) return navigate('/');
+     
+      window.location.reload();
+      if (!state) return navigate('/', { replace: true });
       return navigate(state);
     },
     onError: (error) => {
@@ -71,26 +74,6 @@ function EmailLogin() {
         <SignUpText />
         <LongButton type="sumbit" value={"로그인"} width={"360px"} heigth={"36px"} />
       </Form>
-      <div className="Oauth2login">
-        <LongButton
-          value={"구글로 로그인하기"}
-          width={"360px"}
-          heigth={"36px"}
-          yellow={true}
-        />
-        <LongButton
-          value={"카카오로 로그인하기"}
-          width={"360px"}
-          heigth={"36px"}
-          yellow={true}
-        />
-        <LongButton
-          value={"네이버로 로그인하기"}
-          width={"360px"}
-          heigth={"36px"}
-          yellow={true}
-        />
-      </div>
     </div>
   );
 }

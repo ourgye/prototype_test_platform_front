@@ -18,6 +18,14 @@ const tempGameData = {gamename: "게임 제목 입니다", category: ["액션", 
 
 export default function Banner() {
 
+  const  slides= () => {
+    let slideArr = [];
+    for (let i = 0; i < 5; i++) {
+      slideArr.push(<SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>);
+    }
+    return slideArr;
+  }
+
   return (
     <div className="Banner">
       <Swiper
@@ -25,11 +33,7 @@ export default function Banner() {
         navigation={true}
         modules={[Pagination, Navigation]}
       >
-        <SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>
-        <SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>
-        <SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>
-        <SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>
-        <SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>
+        {slides()}
       </Swiper>
     </div>
   );

@@ -15,6 +15,7 @@ import NewProject from "./routes/NewProject.jsx";
 import Proto from "./routes/Proto.jsx";
 import ProtoRoot from "./routes/ProtoRoot.jsx";
 import GameDetail from "./routes/GameDetail.jsx";
+import { AuthProvider } from "./context/auth.js";
 
 // tansack query
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -22,6 +23,8 @@ import { getUserInfo, getUserSession } from "./api/User.js";
 import MyPageRoot from "./routes/MyPageRoot.jsx";
 import NewGame from "./routes/NewGame.jsx";
 import RouterRoot from "./routes/RouterRoot.jsx";
+import { getGamesByCategory, getTop10Games } from "./api/Proto.js";
+import { makeManyUser } from "./api/TempApi.js";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,23 @@ function App() {
         {
           index: true,
           element: <Main />,
+          id: "main",
+          loader: async () => {
+            try {
+              // 게임 데이터 미리 로딩
+              const top10Games = await getTop10Games();
+              // ai 추천 게임 추가
+              //const res2 = await getUserInfo();
+
+              if (!top10Games) throw new Error();
+              // if (!res2.ok) throw new Error();
+              // const AIGames = await res2.json();
+              return top10Games;
+            } catch (error) {
+              console.log(error);
+              return null;
+            }
+          },
         },
         {
           path: "signin",
@@ -60,8 +80,18 @@ function App() {
           },
         },
         {
-          path: "games",
+          path: "games/:game_category",
           element: <Games />,
+          id: "categorygames",
+          loader: async ({ params }) => {
+            try {
+              const gameList = await getGamesByCategory(params.game_category);
+              return gameList;
+            } catch (error) {
+              console.log(error);
+              return null;
+            }
+          },
         },
         {
           path: "game/:gameid",
@@ -140,9 +170,11 @@ function App() {
 
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthProvider>
     </div>
   );
 }

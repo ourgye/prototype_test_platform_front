@@ -4,10 +4,11 @@ export async function getTop10Games() {
     const res = await fetch("/proto/game/top10", {
       method: "GET",
     });
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-
+    // console.log("getTop10Games res: ", res);
     const top10Games = await res.json();
     return top10Games;
   } catch (error) {
