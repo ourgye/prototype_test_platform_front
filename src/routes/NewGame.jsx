@@ -2,19 +2,43 @@ import { useState } from "react";
 import Topbar from "../component/Topbar";
 import InputBox from "../component/sign/InputBox";
 import LongButton from '../component/sign/LongButton';
+import { makeNewGame } from "../api/Proto";
 
 import { ReactComponent as AddCircleIcon } from "../icons/add_circle.svg";
 
 import '../styles/NewGame.css'
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import InputDropDown from "../component/sign/InputDropDown";
+
+const newGame = {
+    name: "", 
+    category: "",
+}
 
 function NewGame() { 
     const navigation = useNavigate();
     const [gameName, setGameName] = useState('');
+    const [category, setCategory] = useState('ACTION')
 
     const handleChangeGameName = (e) => {
         setGameName(e.target.value)
     }
+
+    const { mutate: handleCreateNewdGame, isLoading, isError, error, isSuccess } = useMutation({
+        mutationFn: makeNewGame,
+        onSuccess: (res) => {
+            // 게임 아이디 저장
+            navigation({
+                pathname: '../newproject',
+                state: { gameId: res.gameId }
+            })
+        },
+        onError: (error) => {
+            console.error("An error occurred during make new game:", error)
+            alert("게임을 만드는 데 실패했습니다. ")
+        }
+    }); 
 
     return (
     <>
@@ -35,12 +59,15 @@ function NewGame() {
                         <div className="new-game-input add-category">
                             카테고리<br />
                             <div className="added-category-wrapper">
-                                <AddCircleIcon className="add-category-icon" width={"32px"} height={'32px'}/>
+                                <InputDropDown width="inherit" />
                             </div>
                         </div>  
                     </div>
                     <LongButton value={"게임 프로젝트 생성하러 가기"} width={"300px"} onClick={() => {
-                        navigation('../newproject')
+                        newGame.name = gameName;
+                        newGame.category = category;
+                        console.log(newGame);
+                        handleCreateNewdGame(newGame); 
                     }}/>
             </div>
         </div>

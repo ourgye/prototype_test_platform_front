@@ -19,7 +19,12 @@ import { AuthProvider } from "./context/auth.js";
 
 // tansack query
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getUserInfo, getUserSession } from "./api/User.js";
+import {
+  getUserCountInfo,
+  getUserInfo,
+  getUserSession,
+  getUserInfoForMyPage,
+} from "./api/User.js";
 import MyPageRoot from "./routes/MyPageRoot.jsx";
 import NewGame from "./routes/NewGame.jsx";
 import RouterRoot from "./routes/RouterRoot.jsx";
@@ -36,6 +41,10 @@ function ErrorBoundary() {
 }
 
 function App() {
+  const userid = getUserSession();
+  console.log(userid);
+
+  // makeManyUser();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -116,13 +125,9 @@ function App() {
             //미로그인 시 로그인 페이지로 리다이렉트
             const userId = getUserSession();
             if (!userId) return redirect("/signin");
-
             try {
-              const res = await getUserInfo();
+              const user = await getUserInfoForMyPage();
 
-              if (!res.ok) throw new Error();
-              const user = await res.json();
-              // console.log(user);
               return user;
             } catch (error) {
               console.log(error);

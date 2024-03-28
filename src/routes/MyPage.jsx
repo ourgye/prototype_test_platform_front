@@ -75,7 +75,10 @@ function FavGameList() {
 }
 
 function MyPage() {
-    const user = useRouteLoaderData('mypageroot');
+    const userinfo = useRouteLoaderData('mypageroot');
+    const user = userinfo.user;
+    console.log(userinfo.userCount)
+
     const [whichClicked, setWhichClicked] = useState(4);
 
     const DisplayedList = () => {
@@ -95,7 +98,7 @@ function MyPage() {
     return (<>
         <WhereAmI />
         <div className="mypage-container">
-            <UserProfile username={user.name} userbio={user.bio} imgPath={user.imgPath} />
+            <UserProfile username={user.name} userbio={user.bio} imgPath={user.imgPath} usercnt={userinfo.userCount} />
             <div className="mypage-inner-tab">
                 <UserProfileNav whichClicked={whichClicked} onClick={setWhichClicked} />
                 {DisplayedList()}

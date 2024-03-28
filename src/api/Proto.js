@@ -1,7 +1,7 @@
 // TOP 10 게임 불러오기(찜 기준) - 게임
 export async function getTop10Games() {
   try {
-    const res = await fetch("/proto/game/top10", {
+    const res = await fetch("/proto/top10", {
       method: "GET",
     });
 
@@ -97,7 +97,7 @@ export async function getMyGames(email) {
 }
 
 //게임 제작
-export async function makeNewGame({ newGame }) {
+export async function makeNewGame(newGame) {
   try {
     const res = await fetch("/proto/game", {
       method: "POST",
@@ -110,7 +110,8 @@ export async function makeNewGame({ newGame }) {
       throw new Error(res.statusText);
     }
 
-    return res;
+    const gameId = await res.text();
+    return gameId;
   } catch (error) {
     console.error("An error occurred during make new game:", error);
     throw error;

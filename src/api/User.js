@@ -27,10 +27,10 @@ export async function userLogin({ email, pw }) {
       throw new Error(res.statusText);
     }
     // json 이 아닌 text로 들어옴
-    const user_id = await res.text();
-    sessionStorage.setItem(USER_SESSION_STORAGE_KEY, JSON.stringify(user_id));
+    const user = await res.json();
+    sessionStorage.setItem(USER_SESSION_STORAGE_KEY, JSON.stringify(user));
 
-    return user_id;
+    return user;
   } catch (error) {
     console.error("An error occurred during login:", error);
     throw error; // 에러를 다시 throw하여 상위 호출자에게 전달
@@ -59,7 +59,7 @@ export async function checkEamilduplication({ email }) {
     else return false;
   } catch (error) {
     console.log("An error occurred during email check: ", error);
-    throw Error;
+    throw error;
   }
 }
 
@@ -78,14 +78,14 @@ export async function signUp(newUser) {
     return res;
   } catch (error) {
     console.log("An error occurred during sign up", error);
-    throw Error;
+    throw error;
   }
 }
 
 //회원 정보 가져오기
 export async function getUserInfo() {
   const userId = getUserSession();
-  const requestURL = `/user/info/${userId["user_id"]}`;
+  const requestURL = `/user/info/${userId["userId"]}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -96,14 +96,25 @@ export async function getUserInfo() {
     console.log(res);
     return res;
   } catch (error) {
-    throw Error;
+    throw error;
+  }
+}
+// 유저 정보 불러오기: 마이페이지
+export async function getUserInfoForMyPage() {
+  try {
+    const user = await getUserSummaryInfo();
+    const userCount = await getUserCountInfo();
+
+    return { user, userCount };
+  } catch (error) {
+    throw error;
   }
 }
 
-//유저 정보 불러오기 : 이름 소개 이미지
+//유저 정보 불러오기: 이름 소개 이미지
 export async function getUserSummaryInfo() {
   const userId = getUserSession();
-  const requestURL = `/user/summary/${userId["user_id"]}`;
+  const requestURL = `/user/preview/info/${userId["userId"]}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -112,16 +123,38 @@ export async function getUserSummaryInfo() {
 
     if (!res.ok) throw new Error(res.statusText);
     console.log(res);
-    return res;
+    const userinfo = await res.json();
+
+    return userinfo;
   } catch (error) {
-    throw Error;
+    throw error;
+  }
+}
+
+// 유저 정보 불러오기: 리뷰 수, 게임 수, 팔로워 수
+export async function getUserCountInfo() {
+  const user = getUserSession();
+  const requestURL = `/user/cnt?email=${user["email"]}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+
+    const userCountInfo = await res.json();
+    return userCountInfo;
+  } catch (error) {
+    throw error;
   }
 }
 
 //회원 정보 수정
-export async function updateUserInfo({ user }) {
+export async function updateUserInfo(user) {
   const userId = getUserSession();
-  const requestURL = `/user/info/${userId["user_id"]}`;
+  const requestURL = `/user/info/${userId["userId"]}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -136,14 +169,14 @@ export async function updateUserInfo({ user }) {
     console.log(res);
     return res;
   } catch (error) {
-    throw Error;
+    throw error;
   }
 }
 
 //소개글 수정
 export async function updateUserBio(bio) {
   const userId = getUserSession();
-  const requestURL = `/user/bio/${userId["user_id"]}`;
+  const requestURL = `/user/bio/${userId["userId"]}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -158,14 +191,14 @@ export async function updateUserBio(bio) {
     console.log(res);
     return res;
   } catch (error) {
-    throw Error;
+    throw error;
   }
 }
 
 //닉네임 수정
 export async function updateUserName(name) {
   const userId = getUserSession();
-  const requestURL = `/user/name/${userId["user_id"]}`;
+  const requestURL = `/user/name/${userId["userId"]}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -180,6 +213,6 @@ export async function updateUserName(name) {
     console.log(res);
     return res;
   } catch (error) {
-    throw Error;
+    throw error;
   }
 }

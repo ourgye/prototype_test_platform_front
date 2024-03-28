@@ -83,7 +83,7 @@ function ProfileBox({selectedImage, setSelectedImage}) {
 }
 
 function EmailSignUp({onClickButton}) {
-  const [email, setEmail] = useState('game@game.com');
+  const [email, setEmail] = useState('game@proto.com');
   const [isEmailUnique, setIsEmailUnique] = useState(true);
   const [pw, setPw] = useState('');
   const [pwCheck, setpwCheck] = useState('');
@@ -280,7 +280,7 @@ function SignUpFill() {
       newUser['favCategory1'] = fav1; newUser['favCategory2'] = fav2; newUser['favCategory3'] = fav3;
       
       //api 연결
-      return signupApi({ newUser })
+      return signupApi( newUser )
     }
 
     return alert("필수 입력 란을 확인해주세요")

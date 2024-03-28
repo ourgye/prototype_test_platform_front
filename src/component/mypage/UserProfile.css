@@ -34,8 +34,8 @@
 /* 유저 정보 (박스) */
 .user-page-detailed-info{
     display: grid;
-    grid-template-columns: repeat(4, auto);
-    gap: 36px;
+    grid-template-columns: repeat(3, auto);
+    gap: 80px;
     padding: 8px 24px;
     border: 1px solid var(--background);
 
@@ -71,6 +71,7 @@
     border-radius: 50%;
     background-color: white;
     border: 1px solid black;
+    object-fit: cover;
 }
 
 /* 프로필 수정 버튼 */
