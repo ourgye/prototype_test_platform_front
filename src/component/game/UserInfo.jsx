@@ -2,8 +2,7 @@ import './UserInfo.css'
 import {ReactComponent as StarIcon} from '../../icons/star.svg'
 import { useState } from 'react';
 
-function UserInfo() {
-    const user = {name: "당근박쥐"}
+function UserInfo({user}) {
     const [showFollow, setShowFollow] = useState(false);
 
     const handleClickUserName = () => {
@@ -13,7 +12,7 @@ function UserInfo() {
     return (
         <div className="posted-user-wrapper">
             <div className="posted-user" onClick={handleClickUserName}>
-                @{user.name}
+                @{user}
             </div>
             {showFollow && <div className='user-follow'>
                 <StarIcon/>팔로우하기

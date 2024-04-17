@@ -43,9 +43,8 @@ export async function logout() {
 }
 
 //이메일 중복 확인
-//get 에서 post로 바꾸는 것 고려
-export async function checkEamilduplication({ email }) {
-  const requestURL = `/emailcheck?email=${email}`;
+export async function checkEamilduplication(email) {
+  const requestURL = `/email/check?email=${email}`;
 
   try {
     const res = await fetch(requestURL, {
@@ -53,9 +52,9 @@ export async function checkEamilduplication({ email }) {
     });
 
     if (!res.ok) throw new Error(res.statusText);
-    const userEmailChecked = await res.json();
+    const userEmailChecked = await res.text();
 
-    if (userEmailChecked.userEmailChecked) return true;
+    if (userEmailChecked === "true") return true;
     else return false;
   } catch (error) {
     console.log("An error occurred during email check: ", error);
@@ -75,6 +74,7 @@ export async function signUp(newUser) {
     });
 
     if (!res.ok) throw new Error(res.statusText);
+
     return res;
   } catch (error) {
     console.log("An error occurred during sign up", error);
@@ -212,6 +212,25 @@ export async function updateUserName(name) {
     if (!res.ok) throw new Error(res.statusText);
     console.log(res);
     return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//팔로잉리스트 불러오기
+export async function getFollowingList(email) {
+  const requestURL = `/following/list?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+    console.log(res);
+    const followingList = await res.json();
+
+    return followingList;
   } catch (error) {
     throw error;
   }

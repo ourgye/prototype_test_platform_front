@@ -1,4 +1,3 @@
-import TopBar from "../component/Topbar";
 import {ReactComponent as ArrowRight} from '../icons/chevron_right.svg'
 
 import GameItem from "../component/mypage/GameItem";
@@ -8,8 +7,13 @@ import ReviewItem from "../component/mypage/ReviewItem";
 import FollowingItem from "../component/mypage/FollowingItem";
 
 import '../styles/MyPage.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouteLoaderData } from "react-router-dom";
+import { defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
+import { getFollowingList, getUserSession } from "../api/User";
+import { getReviewList } from "../api/Review";
+import { getMyGames } from "../api/Proto";
+import { getFav } from '../api/Fav';
 
 function WhereAmI(props) {
     return (
@@ -24,10 +28,25 @@ function WhereAmI(props) {
         </div>
     )
 }
-function ReviewList() {
-    const reviewList = Array.from({ length: 10 }, (_, index) => {
-        return (<ReviewItem gameName="게임 이름" testCount="3" gameCategory="게임 카테고리"/>); 
-    });
+function ReviewList({user}) {
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await getReviewList(user);
+                setReviews(response.reviewList);
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        };
+
+        fetchReviews();
+    }, [user]);
+
+    const reviewList = reviews.map((review, index) => (
+        <ReviewItem key={index} gameName={review.gameName} testCount={review.testRound} />
+    ));
 
     return (
         <div className="review-list inner-list">
@@ -37,10 +56,32 @@ function ReviewList() {
 }
 
 
-function GameList() {
-    const gameList = Array.from({ length: 10 }, (_, index) => {
-        return (<GameItem title="게임 이름" testCount="3" gameCategory="게임 카테고리" reviewNum="42"/>); 
-    });
+function GameList({ user }) {
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const response = await getMyGames(user);
+                setGames(response.gameList);
+            } catch (error) {
+                console.error('Error fetching made games:', error);
+            }
+        };
+
+        fetchGames();
+    }, [user]);
+
+    const gameList = games.map((game, index) => (
+        <GameItem key={index}
+            gameId={game.testId}
+            title={game.gameName.length > 15 ? game.gameName.slice(0, 15) + '...' : game.gameName}
+            testCount={game.testRound}
+            gameCategory={game.category}
+            reviewNum={game.reviewCount}
+            imgPath={game.imgPath}
+        />
+    ));
 
     return (
         <div className="game-list inner-list">
@@ -49,10 +90,26 @@ function GameList() {
     )
 }
 
-function FollowingList() {
-    const followingList = Array.from({ length: 10 }, (_, index) => {
-        return (<FollowingItem />)
-    })
+function FollowingList({user}) {
+    const [followings, setFollowings] = useState([]);
+    
+    useEffect(() => {
+        const fetchFollowingList = async () => {
+            try {
+                const response = await getFollowingList(user);
+                setFollowings(response.followingList);
+            } catch (error) {
+                console.error('Error fetching following list:', error);
+            }
+        };
+
+        fetchFollowingList();
+    }, [user]);
+
+    const followingList = followings.map((following, index) => (
+        <FollowingItem key={index} userName={following.name} imgPath={following.imgPath} favCategories={[following.category1, following.category2, following.category3]}/>
+    ));
+
 
     return (
         <div className="following-list inner-list">
@@ -62,11 +119,33 @@ function FollowingList() {
 }
 
 
-function FavGameList() {
-    const favGameList = Array.from({ length: 10 }, (_, index) => {
-        return (<GameItem title="찜 게임 이름" testCount="3" gameCategory="게임 카테고리" reviewNum="42"/>)
-    })
+function FavGameList({user}) {
+    const [favGames, setFavGames] = useState([]);
 
+    useEffect(() => {
+        const fetchFavGames = async () => {
+            try {
+                const response = await getFav(user);
+                setFavGames(response.dibsList);
+            } catch (error) {
+                console.error('Error fetching favorite games:', error);
+            }
+        };
+
+        fetchFavGames();
+    }, [user]);
+
+    const favGameList = favGames.map((game, index) => (
+        <GameItem
+            key={index}
+            title={game.gameName.length > 15 ? game.gameName.slice(0, 15) + '...' : game.gameName}
+            testCount={game.round}
+            imgPath={game.imgPath}
+            testId={game.gameId}
+            gameCategory={game.category}
+            reviewNum={game.reviewCount} />
+    ));
+    
     return (
         <div className="game-list inner-list">
         {favGameList}
@@ -75,32 +154,41 @@ function FavGameList() {
 }
 
 function MyPage() {
-    const userinfo = useRouteLoaderData('mypageroot');
+    const userinfo = useRouteLoaderData('mypageindex');
     const user = userinfo.user;
-    console.log(userinfo.userCount)
+    const userEmail = getUserSession().email;
 
-    const [whichClicked, setWhichClicked] = useState(4);
+    const [userImg, setUserImg] = useState();
+
+    useEffect(() => {
+      getUserProfileURL(userEmail).then((url) => {
+        setUserImg(url);
+      });
+    }, [userEmail]);
+    
+
+    const [whichClicked, setWhichClicked] = useState(1);
 
     const DisplayedList = () => {
         switch (whichClicked) {
             case 2: 
-                return <ReviewList />
+                return <ReviewList user={userEmail} />
             case 3: 
-                return <FollowingList />
+                return <FollowingList user={userEmail}/>
             case 4: 
-                return <FavGameList />
+                return <FavGameList user={userEmail} />
             default: 
-                return <GameList />
+                return <GameList user={userEmail}/>
         }
     }
 
-
+   
     return (<>
         <WhereAmI />
         <div className="mypage-container">
-            <UserProfile username={user.name} userbio={user.bio} imgPath={user.imgPath} usercnt={userinfo.userCount} />
+            <UserProfile username={user.name} userbio={user.bio} imgPath={userImg} usercnt={userinfo.userCount} />
             <div className="mypage-inner-tab">
-                <UserProfileNav whichClicked={whichClicked} onClick={setWhichClicked} />
+                <UserProfileNav whichClicked={whichClicked} onClick={setWhichClicked}/>
                 {DisplayedList()}
             </div>
         </div>

@@ -21,7 +21,7 @@
     width: 250px;
     border-radius: 16px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 400;
 
     /* text to centet */
     display: flex;
@@ -43,6 +43,10 @@
 }
 
 /* 마감된 게임 */
+.finished-wrapper{
+    background-color: #afafaf;
+    color: black;
+}
 .finished-button{
     background-color: var(--background);
     color: #afafaf;
@@ -50,4 +54,19 @@
 }
 .finished-button:hover{
     font-weight: 500;
+}
+
+
+.owner-wrapper{
+    background-color: lightgreen;
+    color: black;
+}
+.owner-button{
+    background-color: #afafaf;
+    color: black;
+    cursor: default; 
+}
+
+.owner-button:hover{
+    font-weight: inherit; 
 }

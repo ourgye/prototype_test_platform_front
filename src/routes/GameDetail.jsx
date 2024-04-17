@@ -1,9 +1,8 @@
-import Topbar from "../component/Topbar";
 import Review from "../component/game/Reveiw";
 import BottomBar from "../component/game/BottomBar";
 import SectionHeader from "../component/game/SectionHeader";
 import UserInfo from "../component/game/UserInfo";
-import LongButton from '../component/sign/LongButton'
+import TesterReview from "../component/game/TesterReview";
 import ReviewUploadTab from "../component/game/ReviewUploadTab";
 import { SummaryReview } from "../component/game/Reveiw";
 import { ReactComponent as ArrowRight } from "../icons/chevron_right.svg";
@@ -11,14 +10,20 @@ import { ReactComponent as FavEmptyIcon } from '../icons/favorite_empty.svg'
 import { ReactComponent as FavFillIcon } from '../icons/favorite_fill.svg'
 import { ReactComponent as ShareIcon } from '../icons/share.svg'
 import { ReactComponent as DownloadIcon } from '../icons/download.svg'
-import { ReactComponent as DropdownIcon } from '../icons/expand_more.svg'
-import {ReactComponent as SearchIcon} from '../icons/search.svg'
+
+import { categoryListKR, categoryList } from "../category";
 
 import '../styles/GameDetail.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
+import { getUserSession } from "../api/User";
+import { useMutation } from "@tanstack/react-query";
+import { deleteFav, postFav } from "../api/Fav";
+
+const gameStatus = ["recruiting","reviewing", "done", "yet"];
 
 // 컴포넌트로 옯겨야함 (마이페이지에도 존재)
-function WhereAmI(props) {
+function WhereAmI({categoryName, gameName}) {
     return (
         <div className="where-am-i">
             <div className="top-navi">
@@ -26,11 +31,11 @@ function WhereAmI(props) {
             </div>
             <ArrowRight width="26px" height="26px"/>
             <div className="sub-navi">
-                카테고리 이름
+                {categoryListKR[categoryList.indexOf(categoryName)]}
             </div>
             <ArrowRight width="26px" height="26px"/>
             <div className="sub-navi">
-                게임 이름
+                {gameName}
             </div>
         </div>
     )
@@ -50,107 +55,120 @@ function TestInfo(props) {
     )
 }
 
-function SearchReview() {
-   return ( <div className="review-search-tab">
-       <div className="dropdown-filter">
-            {"모든 회차 리뷰"}
-           <DropdownIcon />
-        </div>
-        <div className="review-search-box">
-                <input className="search-input" type="text" placeholder="검색어를 입력하세요."/>
-                <SearchIcon width={20} height={20} />
-        </div>
-    </div>)
+
+function parseDate(date) {
+    const parsedDate = new Date(date);
+
+    return parsedDate.getFullYear() + "-" + (parsedDate.getMonth() + 1) + "-" + parsedDate.getDate();
 }
 
-function TesterReview() {
-    const [isExpand, setIsExpand] = useState(true); 
-    const testOwner =
-        <>
-            <SummaryReview />
-            <SearchReview />
-        </>
-    
-    const tester =
-        <LongButton width="90%" yellow={true} value={"리뷰 작성하러 가기"} height={"50px"} />
-
-    return (
-        <div className="game-detail-review-section">
-            <SectionHeader title="테스터 리뷰" onClickArrow={setIsExpand} isExpand={isExpand} />
-            {isExpand &&
-            <div className="game-detail-review-wrapper">
-                {tester}
-                {/* {testOwner} */}
-
-                <Review feedbackDone={true} owner={true} />
-                <Review feedbackDone={false} owner={true} />
-                <Review />
-            </div>}
-        </div>
-    )
+function getGameStatus(today, startDate, endDate, reviewDate) { 
+    // 테스트 사용자 모집기간(테스트 시작 ~ 테스트 종료 전) -> 리뷰 작성기간(테스트 종료 후 ~ 리뷰 마감일 전) -> 리뷰 마감일 후(테스트 종료 후
+    if (today < startDate) {
+        return gameStatus[3];
+    } else if (today >= startDate && today <= endDate) {
+        return gameStatus[0];
+    } else if (today > endDate && today <= reviewDate) {
+        return gameStatus[1];
+    } else if (today > reviewDate) {
+        return gameStatus[2];
+    }
 }
-
 
 function GameDetail() {
+    // 화면 이동시 맨위로 이동
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+    
 
-    const test = { name: "게임 제목", round: 2, restricted_age: 19, category: "액션" }
+    const gameInfo = useLoaderData('gameDetail');
     const [showReviewUpload, setShowReviewUpload] = useState(false);
     const [isFav, setIsFav] = useState(false);
+    const [isExpandDesc, setIsExpandDesc] = useState(true);    
+    const params = useParams(); 
+    const today = new Date();
+    const testStartdate = new Date(gameInfo.startDate); 
+    const testEnddate = new Date(gameInfo.endDate);
+    const reviewEnddate = new Date(gameInfo.reviewDate);
+
+    const currentGameStatus = getGameStatus(today, testStartdate, testEnddate, reviewEnddate);
+    const userInfo = getUserSession(); 
+    
+    const { mutate: handleClickFavPost } = useMutation({
+        mutationFn: () => { return postFav(userInfo.email, params.testId) },
+        onSuccess: (res) => {
+            setIsFav(true);
+            alert(res); 
+        }
+    });
+
+    const { mutate: handleClickFavDelete } = useMutation({
+        mutationFn: () => { return deleteFav(userInfo.email, params.testId) },
+        onSuccess: (res) => {
+            setIsFav(false);
+            alert(res); 
+        }
+    });
+
+    const handleClickFav = () => {
+        if(isFav) {
+            handleClickFavDelete();
+        } else {
+            handleClickFavPost();
+        }
+    }
+
 
     return (
         <>
-            <header>
-                <Topbar />
-            </header>
-            <div className="mainContainer">
-                <WhereAmI />
-                {showReviewUpload && <ReviewUploadTab />}
-                <div className="game-detail-wrapper">
-                    <div className="game-detail-header">
-                        <div className="game-detail-test-round">
-                            {test.round}차
+            <WhereAmI gameName={gameInfo.gameName} categoryName={gameInfo.category}/>
+            {showReviewUpload && <ReviewUploadTab />}
+            <div className="game-detail-wrapper">
+                <div className="game-detail-header">
+                    <div className="game-detail-test-round">
+                        {gameInfo.round}차
+                    </div>
+                    <div className="game-detail-basic-info">
+                        <div className="game-detail-name-age">
+                            {gameInfo.gameName}
+                            {/* <span className="game-detail-age">{test.restricted_age}</span> */}
                         </div>
-                        <div className="game-detail-basic-info">
-                            <div className="game-detail-name-age">
-                                {test.name}
-                                <span className="game-detail-age">{test.restricted_age}</span>
-                            </div>
-                            <div className="game-detail-user-name">
-                                {/* 유저명 삽입해야함 */}
-                                <UserInfo />
-                            </div>
+                        <div className="game-detail-user-name">
+                            {/* 유저명 삽입해야함 */}
+                            <UserInfo user={gameInfo.userId}/>
                         </div>
                     </div>
-                    <div className="game-detail-game-summary">
-                        <div className="game-detail-game-image-button">
-                            <div className="game-detail-game-image"/>
-                            <div className="game-detail-buttons-warpper">
-                                <div className="game-detail-button" onClick={()=>setIsFav(!isFav)}>
-                                    {isFav ? <FavFillIcon width = { '24px' } fill = "var(--accent)"/> : <FavEmptyIcon width={'24px'} fill="var(--accent)" />}
-                                </div>
-                                <div className="game-detail-button">
-                                    <ShareIcon width={'24px'}/>
-                                </div>
-                                <div className="game-detail-button download-button">
-                                    <DownloadIcon width={'24px'} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="game-detail-test-info">
-                            <TestInfo title="테스터 모집 기간" body="2024.1.4 10:00AM - 2024.01.16 23:59PM"/>
-                            <TestInfo title="리뷰 작성 기한"  body="2024.1.4 10:00AM"/>
-                            <TestInfo title="테스터 모집 인원" body="70/100명"/>
-                            <TestInfo title="테스터 연령 제한" body="만 19세 이상"/>
-                        </div>
-                    </div>
-                    <div className="game-detail-detail-section">
-                        <SectionHeader title="게임 설명" />
-                        <div></div>
-                    </div>
-                   <TesterReview />
                 </div>
-                <BottomBar />
+                <div className="game-detail-game-summary">
+                    <div className="game-detail-game-image-button">
+                        <img className="game-detail-game-image" src={gameInfo.imgPath} />
+                        <div className="game-detail-buttons-warpper">
+                            <div className="game-detail-button" onClick={handleClickFav}>
+                                {isFav ? <FavFillIcon width = { '24px' } fill = "var(--accent)"/> : <FavEmptyIcon width={'24px'} fill="var(--accent)" />}
+                            </div>
+                            <div className="game-detail-button">
+                                <ShareIcon width={'24px'}/>
+                            </div>
+                            <a className="game-detail-button download-button" href={gameInfo.downloadLink} download={gameInfo.gameName} >
+                                <DownloadIcon width={'24px'} />
+                            </a>
+                        </div>
+                    </div>
+                    <div className="game-detail-test-info">
+                        <TestInfo title="테스터 모집 기간" body={parseDate(gameInfo.startDate) +" ~ "+parseDate(gameInfo.endDate)} />
+                        <TestInfo title="리뷰 작성 기한" body={parseDate(gameInfo.reviewDate)} />
+                        <TestInfo title="테스터 모집 인원" body={gameInfo.recruitedTotal+"명"} />
+                        {/* <TestInfo title="테스터 연령 제한" body="만 19세 이상"/> */}
+                    </div>
+                </div>
+                <div className="game-detail-detail-section">
+                    <SectionHeader title="게임 설명" isExpand={isExpandDesc} onClickArrow={setIsExpandDesc} />
+                    {isExpandDesc && <div className="game-detail-description" dangerouslySetInnerHTML={{ __html: gameInfo.description }} />}
+                </div>
+                <TesterReview currentGameStatus={currentGameStatus} testId={params.testId} />
             </div>
+            <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} />
         </>
     )
     

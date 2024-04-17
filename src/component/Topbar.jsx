@@ -7,7 +7,7 @@ import GameCategoryDropdown from "./GameCategoryDropdown";
 import { Link } from "react-router-dom";
 // api 
 import { getUserSession, logout } from "../api/User";
-import { defaultUserProfile } from "../firebase/firebaseStorage";
+import { basePath, defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
 
 // 내비게이션 아이템
 function NavItems(props) {
@@ -51,10 +51,17 @@ function TopbarBtn(props) {
 }
 
 // 로그인 상태일 때 상단바 버튼
-function TopbarLogin({user}) {
+function TopbarLogin({ user }) {
+  const [userImg, setUserImg] = useState();
 
+  useEffect(() => {
+    getUserProfileURL(user.email).then((url) => {
+      setUserImg(url);
+    });
+  }, [user.email]);
+  
   return (<>
-    <img src={user.imagePath ?? defaultUserProfile} alt="프로필 사진"  className="topbar-user-profile"/>
+    <img src={userImg} alt="프로필 사진"  className="topbar-user-profile"/>
     <TopbarBtn name="로그아웃" onClick={() => {
       logout();
       window.location.reload();

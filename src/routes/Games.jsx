@@ -6,7 +6,7 @@ import { categoryList, categoryListKR } from "../category";
 function Games() {
   const gameList = useRouteLoaderData("categorygames");
   const categoryNameEn = useParams();
-  const categoryName = categoryListKR[categoryList.indexOf(categoryNameEn["game_category"])];
+  const categoryName = categoryListKR[categoryList.indexOf(categoryNameEn["gameCategory"].toUpperCase())];
   
   return (
     <>

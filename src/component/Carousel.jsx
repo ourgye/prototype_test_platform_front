@@ -15,13 +15,13 @@ import RankingItem from './RankingItem';
 import { Link } from 'react-router-dom';
 import { categoryListKR, categoryList } from '../category';
 
-function gameItem(rank, gameName, category, gameId) {
-    const gameCategory = categoryListKR[categoryList.indexOf(category)];
+function gameItem(rank, gameName, category, gameId, imgPath, testId) {
+    const gameCategory = categoryListKR.at(categoryList.indexOf(category));
 
     return (
         <SwiperSlide>
-            <Link to={"/game/" + gameId} preventScrollReset={false}>
-                <RankingItem rank={rank} gameName={gameName} category={gameCategory} />
+            <Link to={"/game/" + testId} preventScrollReset={false}>
+                <RankingItem rank={rank} gameName={gameName} category={gameCategory} imgPath={imgPath} />
             </Link>
         </SwiperSlide>
     );
@@ -35,9 +35,10 @@ function gameItemAI(gameName) {
     );
 }
 
-export default function Carousel({title, data}) {
+export default function Carousel({ title, data }) {
+    console.log(data)
     const slideList = data ? data.gameList.map((game, index) => { 
-        return gameItem(index + 1, game.game_name, game.category_list[0].category_name, game.game_id);
+        return gameItem(index + 1, game.gameName, game.category, game.gameId, game.imgPath, game.testId);
     }) : null;
 
     return (<div className='carousel-container'>

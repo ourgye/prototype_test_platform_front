@@ -14,27 +14,23 @@ import { Pagination, Navigation } from 'swiper/modules';
 // import banner items 
 import BannerItem from './BannerItem';
 
-const tempGameData = {gamename: "게임 제목 입니다", category: ["액션", "퍼즐", "RPG"]}
+export default function Banner({ gameData }) {
 
-export default function Banner() {
+  const slides = gameData? gameData.gameList.map((game, index) => {
+    return <SwiperSlide><BannerItem gameName={game.gameName} category={game.category} imgPath={game.imgPath} testId={game.testId} /></SwiperSlide>;
+  }) : null;
 
-  const  slides= () => {
-    let slideArr = [];
-    for (let i = 0; i < 5; i++) {
-      slideArr.push(<SwiperSlide><BannerItem gameName={tempGameData.gamename} category={tempGameData.category} /></SwiperSlide>);
-    }
-    return slideArr;
-  }
 
   return (
-    <div className="Banner">
-      <Swiper
-        pagination={{clickable: true}}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-      >
-        {slides()}
-      </Swiper>
+    <div className="banner">
+      {gameData ?
+        <Swiper
+          pagination={{ clickable: true }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+        >
+          {slides}
+        </Swiper>: null}
     </div>
   );
 }

@@ -3,11 +3,13 @@ import '../styles/GameListCarousel.css'
 import GameItem from './GameItem'
 import { ReactComponent as LeftArrow } from '../icons/chevron_left.svg'
 import { ReactComponent as RightArrow } from '../icons/chevron_right.svg'
+import { Link } from 'react-router-dom';
 
 
 function GameListCarousel({title, data}) {
     const GameItemList = data.gameList.map((game, index) => {
-        return <GameItem key={game.game_id} gameName={game.game_name} />
+        console.log(game)
+        return <Link to={`/game/${game.testId}`}><GameItem key={game.gameId} gameName={game.gameName} imgPath={game.imgPath}/></Link>
     });
 
     //game list pagination (< 1 2 3 4 5 >)
@@ -33,7 +35,7 @@ function GameListCarousel({title, data}) {
             <div className="game-category-list">
                 {GameItemList}
             </div>
-            {Pagination(1, 1, 1)}
+            {/* {Pagination(1, 1, 1)} */}
         </div>
     )
 }

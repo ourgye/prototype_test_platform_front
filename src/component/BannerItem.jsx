@@ -1,20 +1,18 @@
 import "../styles/BannerItem.css"
-// 배너 아이템(이미지와 게임이름)
-// props - gameName:string, category:list 
+import { categoryList, categoryListKR } from "../category"
+import { Link } from "react-router-dom"
+
+
 export default function BannerItem(props) { 
     return (<>
-        <div className="BannerSlideItem">
-            <div className="BannerText">
-                <div className="GameName">{props.gameName}</div>
-                <div className="GameCategory">
-                {props.category.map((element, index) => (
-                    <div className="category" key={index}>{element}</div>
-                ))}
+        <Link className="banner-slide-item" to={`game/${props.testId}`}>
+            <div className="banner-text">
+                <div className="banner-game-name">{props.gameName}</div>
+                <div className="banner-game-catdgory">
+                    <div className="category">{categoryListKR.at(categoryList.indexOf(props.category))}</div>
                 </div>
             </div>
-            <div className="BannerImage">
-                <img src={props.imgsrc} alt={props.alt} />
-            </div>
-        </div>
+            <img className="banner-image" src={props.imgPath} alt={props.alt} />
+        </Link>
     </>)
 }

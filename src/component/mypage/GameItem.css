@@ -1,19 +1,23 @@
-.gameItem{
+.game-item-wrapper{
     display: flex;
     flex-direction: column;
+    justify-self: center;
+    align-self: center;
     padding: 4px;
     width: fit-content;
     gap: 8px;
 }
 
-.gameThumbnailImg{
+.game-mypage-thumbnail-img{
     width: 320px;
     height: 180px;
     border-radius: 8px;
     background-color: var(--background);
+    border: none;
+    object-fit: cover;
 }
 
-.gameDescription{
+.game-description{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -22,13 +26,13 @@
     gap: 8px;
 }
 
-.GDLeft{
+.game-description-left{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.titleNcount{
+.title-count{
     display: flex;
     flex-direction: row;
     width: inherit;
@@ -36,25 +40,25 @@
     gap:8px;
 }
 
-.gameTitle{
-    font-size: 24px;
+.game-title{
+    font-size: 20px;
     font-weight: 500;
 }
 
-.testCount{
-    padding: 0 20px;
+.test-count-mypage{
+    padding: 0 4px;
     background-color: var(--primary);
     border-radius: 4px;
     font-size: 14px;
 }
 
-.gameCategory{
+.game-category{
     font-size: 14px;
     padding-left: 2px;
     color: #949494;
 }
 
-.reviewNum{
+.review-num{
     display: flex;
     flex-direction: row;
     gap: 4px;

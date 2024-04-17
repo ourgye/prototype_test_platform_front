@@ -1,3 +1,4 @@
+import { categoryList, categoryListKR } from '../../category';
 import './FollowingItem.css'
 
 function FavCategory(props) {
@@ -9,22 +10,19 @@ function FavCategory(props) {
 
 }
 
-function FollowingItem() {
+function FollowingItem({userName, imgPath, favCategories}) {
     return (
         <div className="following-item-container">
-            <div className="profile-thumbnail">
-                {/* image */}
-            </div>
+            <img className="profile-thumbnail" src={imgPath} alt={userName} />
             <div className="following-info">
                 <div className="following-name-fav">
                     <div className="following-name">
-                        {/* temp name */}
-                        사용자 이름
+                        {userName}
                     </div>
                     <div className="following-fav">
-                        {/* temp */}
-                        <FavCategory category="카테고리 길어" />
-                        <FavCategory category="짧아" />
+                        {favCategories.map((category, index) => {
+                            <FavCategory category={categoryListKR.at(categoryList.indexOf(category))} />
+                        })}
                     </div>
                 </div>
                 <button className="unfollow-btn">

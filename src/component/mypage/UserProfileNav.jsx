@@ -1,7 +1,4 @@
-import { useState } from 'react'
 import './UserProfileNav.css'
-
-import { Link } from "react-router-dom"
 
 function UserProfileNavItem(props) {
     return (

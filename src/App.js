@@ -28,8 +28,14 @@ import {
 import MyPageRoot from "./routes/MyPageRoot.jsx";
 import NewGame from "./routes/NewGame.jsx";
 import RouterRoot from "./routes/RouterRoot.jsx";
-import { getGamesByCategory, getTop10Games } from "./api/Proto.js";
+import {
+  getExistingGameList,
+  getGamesByCategory,
+  getMainGameInfo,
+  getTestDetail,
+} from "./api/Proto.js";
 import { makeManyUser } from "./api/TempApi.js";
+import SelectedGame from "./routes/SelectedGame.jsx";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +50,6 @@ function App() {
   const userid = getUserSession();
   console.log(userid);
 
-  // makeManyUser();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -57,14 +62,9 @@ function App() {
           loader: async () => {
             try {
               // 게임 데이터 미리 로딩
-              const top10Games = await getTop10Games();
-              // ai 추천 게임 추가
-              //const res2 = await getUserInfo();
+              const mainGameData = await getMainGameInfo();
 
-              if (!top10Games) throw new Error();
-              // if (!res2.ok) throw new Error();
-              // const AIGames = await res2.json();
-              return top10Games;
+              return mainGameData;
             } catch (error) {
               console.log(error);
               return null;
@@ -74,12 +74,6 @@ function App() {
         {
           path: "signin",
           element: <Sign />,
-          action: async (queryClient) => {
-            return async (request, params) => {
-              // 임시로 해놓음. 안해놓으면 오류남.
-              return null;
-            };
-          },
           // 로그인 완료 시 메인 페이지로 리다이렉트
           loader: async () => {
             const userId = getUserSession();
@@ -89,12 +83,14 @@ function App() {
           },
         },
         {
-          path: "games/:game_category",
+          path: "games/:gameCategory",
           element: <Games />,
           id: "categorygames",
           loader: async ({ params }) => {
             try {
-              const gameList = await getGamesByCategory(params.game_category);
+              const gameList = await getGamesByCategory(
+                params.gameCategory.toUpperCase()
+              );
               return gameList;
             } catch (error) {
               console.log(error);
@@ -103,8 +99,18 @@ function App() {
           },
         },
         {
-          path: "game/:gameid",
+          path: "game/:testId",
           element: <GameDetail />,
+          id: "gamedetail",
+          loader: async ({ params }) => {
+            try {
+              const res = await getTestDetail(params.testId);
+              return res;
+            } catch (error) {
+              console.log(error);
+              return null;
+            }
+          },
         },
         {
           path: "signup",
@@ -125,23 +131,40 @@ function App() {
             //미로그인 시 로그인 페이지로 리다이렉트
             const userId = getUserSession();
             if (!userId) return redirect("/signin");
-            try {
-              const user = await getUserInfoForMyPage();
-
-              return user;
-            } catch (error) {
-              console.log(error);
-              return null;
-            }
+            return null;
           },
           children: [
             {
               index: true,
               element: <MyPage />,
+              id: "mypageindex",
+              loader: async () => {
+                //미로그인 시 로그인 페이지로 리다이렉트
+                try {
+                  const user = await getUserInfoForMyPage();
+
+                  return user;
+                } catch (error) {
+                  console.log(error);
+                  return null;
+                }
+              },
             },
             {
               path: "modify",
               element: <ModifyProfile />,
+              id: "mypagemodify",
+              loader: async () => {
+                //미로그인 시 로그인 페이지로 리다이렉트
+                try {
+                  const user = await getUserInfo();
+
+                  return user;
+                } catch (error) {
+                  console.log(error);
+                  return null;
+                }
+              },
             },
           ],
         },
@@ -158,6 +181,17 @@ function App() {
             {
               index: true,
               element: <Proto />,
+            },
+            {
+              path: "choosegame",
+              id: "choosegame",
+              element: <SelectedGame />,
+              loader: async () => {
+                const user = getUserSession();
+                const gameList = await getExistingGameList(user.email);
+
+                return gameList;
+              },
             },
             {
               path: "newproject",

@@ -58,7 +58,7 @@ p{
     font-weight: 600;
 }
 /* 유저 바이오 textarea */
-.user-bio-input{
+.sign-up-user-bio-input{
     width: 360px;
     height: 120px;
     resize: none;

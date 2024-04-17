@@ -6,6 +6,6 @@ import { categoryListKR, categoryList } from '../category'
 export default function GameCategoryDropdown() { 
     return <ul className='game-category-dropdown-wrapper'>
         <div className="category-header">카테고리</div>
-        {categoryListKR.map((element, index) => <div><Link to={"/games/"+categoryList[categoryListKR.indexOf(element)]} state={{data: element}} key={index}>{element}</Link></div>)}
+        {categoryListKR.map((element, index) => <div><Link to={"/games/"+categoryList[categoryListKR.indexOf(element)].toLowerCase()} state={{data: element}} key={index}>{element}</Link></div>)}
     </ul>
 }

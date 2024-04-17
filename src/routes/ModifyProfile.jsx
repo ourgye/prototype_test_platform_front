@@ -6,11 +6,12 @@ import { ReactComponent as ProfileIcon } from '../icons/profile_default.svg';
 import InputBox from "../component/sign/InputBox";
 import InputDropDown from "../component/sign/InputDropDown";
 import { Form, redirect, useLocation, useNavigate, useRouteLoaderData } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCountryList } from '../country';
 import { categoryList, categoryListKR } from '../category';
 import { useMutation } from '@tanstack/react-query';
 import { updateUserInfo } from '../api/User';
+import { getUserProfileURL, uploadUserProfileFile } from '../firebase/firebaseStorage';
 
 function WhereAmI(props) {
     return (
@@ -26,8 +27,9 @@ function WhereAmI(props) {
     )
 }
 
-function ProfileThumbnail(selectedImage, setSelectedImage) {
+function ProfileThumbnail({ selectedImage, setSelectedImage, setIsImageChanged}) {
     const [selectedImageName, setSelectedImageName] = useState();
+    const [imageURL, setImageURL] = useState();
 
     const handleSelectImage = (e) => {
         e.preventDefault();
@@ -37,11 +39,12 @@ function ProfileThumbnail(selectedImage, setSelectedImage) {
 
         // 이미지 선택 취소시 아무 변경 없음
         if (e.target.files.length > 0) { 
-            const selectedImage = e.target.files;
-            const imageURL = URL.createObjectURL(selectedImage[0]);
+            const selectedImages = e.target.files;
 
-            setSelectedImage(imageURL);
-            setSelectedImageName(selectedImage[0].name);
+            setSelectedImage(selectedImages[0]);
+            setSelectedImageName(selectedImages[0].name);
+            setImageURL(URL.createObjectURL(selectedImages[0]));
+            setIsImageChanged(true);
         }
     }
 
@@ -59,16 +62,12 @@ function ProfileThumbnail(selectedImage, setSelectedImage) {
             />
     </>
     )
-
-    const profileImage = selectedImage[0] ? (
+    
+    const profileImage =
         <div className='profileImage'>
-            <img src={selectedImage} alt={selectedImageName} id="profileImage" />
+            <img src={imageURL ?? selectedImage} alt={selectedImageName} id="profileImage" />
         </div>
-    ) : (
-        <div className='profileImage'>
-            <ProfileIcon width='128px' height='128px' className="profileIcon" />
-        </div>
-    );
+   
     
     
     return (<Form className='profileImageBox'>
@@ -80,25 +79,30 @@ function ProfileThumbnail(selectedImage, setSelectedImage) {
 
 function ModifyProfileForm() {
     const navigate = useNavigate();
-    const { state } = useLocation();
-    const user = useRouteLoaderData('mypageroot');
-    // console.log("modifyProfileLoaderData; ", user);
+    const user = useRouteLoaderData('mypagemodify');
 
     const ageList = [...Array(99)].map((_, i) => { return i + 1 });
     const genderList = ["남성", "여성", "선택 안함"];
     const genderListEn = ['male', 'female', 'none'];
     const countryList = getCountryList();
   
-    const [selectedImage, setSelectedImage] = useState(user.imgPath);
+    const [selectedImage, setSelectedImage] = useState();
+    const [isImageChanged, setIsImageChanged] = useState(false);
     const [name, setName] = useState(user.name);
     const [age, setAge] = useState(user.age);
     const [gender, setGender] = useState(user.gender.toLowerCase());
     const [nation, setNation] = useState(user.nation);
     const [bio, setBio] = useState(user.bio);
-    const [fav1, setFav1] = useState(user.favCategory1.toLowerCase());
-    const [fav2, setFav2] = useState(user.favCategory2.toLowerCase());
-    const [fav3, setFav3] = useState(user.favCategory3.toLowerCase());
-  
+    const [fav1, setFav1] = useState(user.favCategory1);
+    const [fav2, setFav2] = useState(user.favCategory2);
+    const [fav3, setFav3] = useState(user.favCategory3);
+
+    useEffect(() => {
+        getUserProfileURL(user.email).then((url) => {
+            setSelectedImage(url);
+        });
+    }, [user.email]);
+
     //인풋 체인지 핸들러
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -156,7 +160,7 @@ function ModifyProfileForm() {
             (fav3 && fav3 !== "default")) { 
             const modifiedUser = {
                 name: name,
-                gender: gender,
+                gender: gender.toUpperCase(),
                 age: age,
                 nation: nation,
                 bio: bio,
@@ -165,7 +169,9 @@ function ModifyProfileForm() {
                 favCategory3: fav3,
             }
 
-            return modifyUserInfoAPI({user});
+            if(isImageChanged) uploadUserProfileFile(selectedImage, user.email); 
+
+            return modifyUserInfoAPI(modifiedUser);
         }
 
         return alert("필수 입력란을 확인해주세요");
@@ -174,7 +180,7 @@ function ModifyProfileForm() {
 
     return (
         <div className="modify-profile-container">
-            <ProfileThumbnail selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+            <ProfileThumbnail selectedImage={selectedImage} setSelectedImage={setSelectedImage} setIsImageChanged={setIsImageChanged} />
             <div className="profile-text">
                 <div>
                     이메일<br/>
@@ -182,7 +188,7 @@ function ModifyProfileForm() {
                 </div>
                 <div>
                     닉네임*<br/>
-                    <InputBox width={"400px"} defaultValue={name} />
+                    <InputBox width={"400px"} defaultValue={name} onChange={handleNameChange} />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between"}}>
                     <div >

@@ -7,6 +7,7 @@ function LongButton(props) {
             style={{ width: props.width, height: props.height }}
             onClick={props.onClick}
             type={props.type}
+            disabled={props.disabled}
         >
             {props.value}
         </button>

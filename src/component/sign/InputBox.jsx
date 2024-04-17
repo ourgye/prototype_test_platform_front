@@ -11,6 +11,7 @@ function InputBox(props) {
                 onChange={props.onChange}
                 disabled={props.disabled ?? false}
                 defaultValue={props.defaultValue}
+                onKeyDown={props.onKeyDown}
             />
         </>
     )

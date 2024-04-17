@@ -1,6 +1,6 @@
 /* using swipper */
 
-.Banner{
+.banner{
     background-color: #fff;
     width: 100%;
     padding: 24px 0px;
@@ -21,21 +21,21 @@
     --swiper-navigation-color: white;
 }
 
-.Banner .swiper-slide{
+.banner .swiper-slide{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 /* navigation */
-.Banner .swiper-button-prev{
+.banner .swiper-button-prev{
     width: 48px;
     height: 280px;
     border-radius: 0px 8px 8px 0px;
     background: #5A5656;
 }
 
-.Banner .swiper-button-next{
+.banner .swiper-button-next{
     width: 48px;
     height: 280px;
     border-radius: 8px 0px 0px 8px;
@@ -44,6 +44,6 @@
 
 /* pagination */
 
-.Banner .swiper-pagination{
+.banner .swiper-pagination{
     position: inherit
 }

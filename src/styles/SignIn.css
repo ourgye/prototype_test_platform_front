@@ -12,14 +12,14 @@ button{
     
 }
 
-.loginInput{
+.login-input{
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin: 16px 0px;
 }
 
-.loginTab{
+.login-tab{
     position: absolute;
     left: 50%;
     top: 80px;
@@ -30,20 +30,11 @@ button{
     text-align: left;
 }
 
-.signUp{
+.sign-up{
     font-size: 16px;
     margin-bottom: 16px;
 }
-.signUp a{
+.sign-up a{
    text-decoration: underline;
    font-weight: bold;
-}
-
-
-.Oauth2login{
-    display: flex;
-    flex-direction: column;
-    font-size: 12px;
-    gap: 16px;
-    margin-top: 64px;
 }

@@ -1,16 +1,16 @@
+import { getRecentGameList } from "../api/Proto";
 import Banner from "../component/Banner";
 import Carousel from "../component/Carousel";
 import { useRouteLoaderData } from "react-router-dom";
 
 function Main() {
-  const top10game = useRouteLoaderData('main');
+  const maindata = useRouteLoaderData('main');
 
-  // console.log(top10game);
   return (
     <>
-        <Banner />
+        <Banner gameData={maindata.bannerGames}/>
         <Carousel ai={true} title={"AI 추천 게임"} />
-        <Carousel rank={true} title={"TOP 10"} data={top10game} />
+        <Carousel rank={true} title={"TOP 10"} data={maindata.top10Games} />
     </>
   );
 }

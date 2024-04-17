@@ -4,12 +4,7 @@ import Topbar from "../component/Topbar"
 function MyPageRoot() {
     return (
         <>
-            <header>
-                <Topbar/>
-            </header>
-            <div className="mainContainer">
-                <Outlet />
-            </div>
+            <Outlet />
         </>
     )
 }

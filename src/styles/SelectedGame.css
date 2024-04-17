@@ -1,0 +1,23 @@
+.new-project-tab{
+    margin: 20px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.document-title{
+    align-self: flex-start;
+    margin: 20px;
+}
+.document-title h1, p{
+    text-align: start;
+    margin: 0;
+}
+.game-selection{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px;
+    width: inherit;
+    margin-bottom: 40px;
+} 

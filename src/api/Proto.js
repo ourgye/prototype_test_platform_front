@@ -119,10 +119,10 @@ export async function makeNewGame(newGame) {
 }
 
 //테스트(프로젝트) 제작
-export async function makeNewTest(gameId, email, { newTest }) {
+export async function makeNewTest(gameId, email, newTest) {
   const requestURL = `/proto/${gameId}?email=${email}`;
   try {
-    const res = await fetch("/proto/build", {
+    const res = await fetch(requestURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +132,9 @@ export async function makeNewTest(gameId, email, { newTest }) {
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-    return res;
+    const testId = await res.text();
+
+    return testId;
   } catch (error) {
     console.error("An error occurred during make new test:", error);
     throw error;
@@ -196,6 +198,37 @@ export async function getGameDownloadLink(gameId) {
     return downloadLink;
   } catch (error) {
     console.error("An error occurred during get game download link:", error);
+    throw error;
+  }
+}
+
+// 최근 만든 게임 리스트(5개) 가져오기
+export async function getRecentGameList() {
+  try {
+    const res = await fetch("/proto/main/recent", {
+      method: "GET",
+    });
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    const recentGameList = await res.json();
+    return recentGameList;
+  } catch (error) {
+    console.error("An error occurred during get recent game list:", error);
+    throw error;
+  }
+}
+
+// 메인 페이지 게임 정보 가져오기
+export async function getMainGameInfo() {
+  try {
+    const top10Games = await getTop10Games();
+    const bannerGames = await getRecentGameList();
+
+    return { top10Games, bannerGames };
+  } catch (error) {
+    console.error("An error occurred during get main game info:", error);
     throw error;
   }
 }

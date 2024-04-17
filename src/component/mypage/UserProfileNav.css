@@ -1,7 +1,7 @@
 .user-profile-nav{
     display: grid;
     grid-template-columns: repeat(4, auto);
-    width: 1048px;
+    width: inherit;
 }
 .user-profile-nav-item{
     background-color: var(--background);

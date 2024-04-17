@@ -1,6 +1,5 @@
 import LongButton from "../component/sign/LongButton";
 import InputBox from "../component/sign/InputBox";
-import TopBar from "../component/Topbar";
 import InputDropDown from "../component/sign/InputDropDown";
 
 import "../styles/SignUp.css";
@@ -13,6 +12,8 @@ import { checkEamilduplication, signUp } from "../api/User";
 import { categoryList, categoryListKR } from "../category";
 import { getCountryList } from "../country";
 import { checkEmailFormatOrNull, checkPwFormat } from "../check";
+import { upload } from "@testing-library/user-event/dist/upload";
+import { uploadUserProfileFile } from "../firebase/firebaseStorage";
 
 const newUser = {
   email: '',
@@ -28,6 +29,8 @@ const newUser = {
   favCategory3: '',
 }
 
+let image; 
+
 // 프로필 박스(컴포넌트에 있던 거 여기로 옮김)
 function ProfileBox({selectedImage, setSelectedImage}) { 
   
@@ -40,12 +43,11 @@ function ProfileBox({selectedImage, setSelectedImage}) {
       console.log(e.target.files)
 
       // 이미지 선택 취소시 아무 변경 없음
-      if (e.target.files.length > 0) { 
-          const selectedImage = e.target.files;
-          const imageURL = URL.createObjectURL(selectedImage[0]);
+    if (e.target.files.length > 0) { 
+        const selectedImages = e.target.files;
 
-          setSelectedImage(imageURL);
-          setSelectedImageName(selectedImage[0].name);
+        setSelectedImage(selectedImages[0]);
+        setSelectedImageName(selectedImages[0].name);
       }
   }
 
@@ -64,9 +66,9 @@ function ProfileBox({selectedImage, setSelectedImage}) {
   </>
   )
 
-  const profileImage = selectedImage[0] ? (
+  const profileImage = selectedImage ? (
       <div className='profileImage'>
-          <img src={selectedImage} alt={selectedImageName} id="profileImage" />
+          <img src={URL.createObjectURL(selectedImage)} alt={selectedImageName} id="profileImage" />
       </div>
   ) : (
       <div className='profileImage'>
@@ -83,8 +85,8 @@ function ProfileBox({selectedImage, setSelectedImage}) {
 }
 
 function EmailSignUp({onClickButton}) {
-  const [email, setEmail] = useState('game@proto.com');
-  const [isEmailUnique, setIsEmailUnique] = useState(true);
+  const [email, setEmail] = useState('');
+  const [isEmailUnique, setIsEmailUnique] = useState(undefined);
   const [pw, setPw] = useState('');
   const [pwCheck, setpwCheck] = useState('');
   const [isPwSame, setIsPwSame] = useState(undefined);
@@ -174,7 +176,7 @@ function EmailSignUp({onClickButton}) {
                 setIsEmailFormatOk(true);
               }
               
-              handleEmailDuplication({ email });
+              handleEmailDuplication( email );
             }}
             disabled={isEmailUnique}>중복<br />확인</button>
           </div>
@@ -279,12 +281,17 @@ function SignUpFill() {
       newUser['bio'] = bio; newUser['imgPath'] = selectedImage; newUser['nation'] = nation;
       newUser['favCategory1'] = fav1; newUser['favCategory2'] = fav2; newUser['favCategory3'] = fav3;
       
+      // upload profile image
+      uploadUserProfileFile(selectedImage, newUser['email']); 
+      newUser['imgPath'] = newUser['email'] + "/images/" + selectedImage.name;
+      
       //api 연결
       return signupApi( newUser )
     }
 
     return alert("필수 입력 란을 확인해주세요")
   }
+
 
   return (
     <>
@@ -312,7 +319,7 @@ function SignUpFill() {
         </div>
         <div>
           소개글<br/>
-          <textarea className="user-bio-input" placeholder={"간단한 소개를 작성해주세요"} onChange={handleBioChange}/>
+          <textarea className="sign-up-user-bio-input" placeholder={"간단한 소개를 작성해주세요"} onChange={handleBioChange}/>
         </div> 
         <div className="categories-selection-tab">
           <div>
@@ -346,13 +353,8 @@ function SignUp() {
 
   return (
     <>
-      <header>
-        <TopBar />
-      </header>
-      <div className="mainContainer">
-        <div className="signup-tab">
-          {signUpPart===0? <EmailSignUp onClickButton={handleNextButton}/>: <SignUpFill />}
-        </div>
+      <div className="signup-tab">
+        {signUpPart===0? <EmailSignUp onClickButton={handleNextButton}/>: <SignUpFill />}
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import Topbar from "../component/Topbar"
 function ProtoRoot() {
     return (
         <>
-                <Outlet />
+            <Outlet />
         </>
     )
 }
