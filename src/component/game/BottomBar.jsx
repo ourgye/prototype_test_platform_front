@@ -37,14 +37,15 @@ function BottomBar(props) {
         buttomBarContent.className = "owner-wrapper";
         buttomBarContent.classButton = "owner-button";
     }
-        
+    
+    const handleOnClick = (userId==gameMaker || props.currentGameStatus === "done") ?  null : props.onClickButton
 
     return (
         <div className={`bottom-bar-wrapper ${buttomBarContent.className}`}>
             <div className="bottom-bar-msg">
                 {buttomBarContent.message}
             </div>
-            <div className={`bottom-bar-button ${buttomBarContent.classButton}`}>
+            <div className={`bottom-bar-button ${buttomBarContent.classButton}`} onClick={handleOnClick}>
                 {buttomBarContent.buttonValue}
             </div>
         </div>

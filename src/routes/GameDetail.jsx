@@ -19,6 +19,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { getUserSession } from "../api/User";
 import { useMutation } from "@tanstack/react-query";
 import { deleteFav, postFav } from "../api/Fav";
+import { engageGame } from "../api/Proto";
 
 const gameStatus = ["recruiting","reviewing", "done", "yet"];
 
@@ -119,11 +120,21 @@ function GameDetail() {
         }
     }
 
+    // 게임 참여하기 버튼 클릭시
+    const { mutate: handleClickParticipate } = useMutation({
+        mutationFn: () => { return engageGame(params.testId, userInfo.email) },
+        onSuccess: (res) => {
+            alert(res);
+        },
+        onError: (error) => {
+            alert(error);
+        }
+    });
 
     return (
         <>
             <WhereAmI gameName={gameInfo.gameName} categoryName={gameInfo.category}/>
-            {showReviewUpload && <ReviewUploadTab />}
+            {showReviewUpload && <ReviewUploadTab gameName={gameInfo.gameName} userName={userInfo.userName} onClickClose={()=>{setShowReviewUpload(false)}} testId={params.testId}/>}
             <div className="game-detail-wrapper">
                 <div className="game-detail-header">
                     <div className="game-detail-test-round">
@@ -166,9 +177,9 @@ function GameDetail() {
                     <SectionHeader title="게임 설명" isExpand={isExpandDesc} onClickArrow={setIsExpandDesc} />
                     {isExpandDesc && <div className="game-detail-description" dangerouslySetInnerHTML={{ __html: gameInfo.description }} />}
                 </div>
-                <TesterReview currentGameStatus={currentGameStatus} testId={params.testId} />
+                <TesterReview currentGameStatus={currentGameStatus} testId={params.testId} onClickReviewWrite={()=>setShowReviewUpload(true)} owner={userInfo.userId == gameInfo.userId}/>
             </div>
-            <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} />
+            <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} onClickButton={handleClickParticipate} />
         </>
     )
     

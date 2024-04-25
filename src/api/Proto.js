@@ -232,3 +232,23 @@ export async function getMainGameInfo() {
     throw error;
   }
 }
+
+// 게임 참여하기 /proto/engage/{testId}?email={}
+export async function engageGame(testId, email) {
+  const requestURL = `/proto/engage/${testId}?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const res_text = await res.text();
+    return res_text;
+  } catch (error) {
+    console.error("An error occurred during engage game:", error);
+    throw error;
+  }
+}

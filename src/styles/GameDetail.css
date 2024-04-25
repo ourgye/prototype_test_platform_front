@@ -101,9 +101,7 @@
 .game-detail-detail-section{
     width: fit-content
 }
-.game-detail-review-section{
-    width: fit-content
-}
+
 .game-detail-description{
     display: flex;
     flex-direction: column;
@@ -113,17 +111,7 @@
     width: 1000px;
 }
 
-.game-detail-review-wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    width: 100%;
 
-    /* 하단 바 보이기위해(전체적으로 조정 필요) */
-    margin-bottom: 100px;
-}
 
 /* 게임 게시자: 리뷰 검색 */
 .review-search-tab{

@@ -49,7 +49,6 @@ function ErrorBoundary() {
 function App() {
   const userid = getUserSession();
   console.log(userid);
-
   const router = createBrowserRouter([
     {
       path: "/",
