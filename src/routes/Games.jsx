@@ -10,7 +10,7 @@ function Games() {
   
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
       <GameListCarousel title={categoryName} data={gameList} />
     </>
   );

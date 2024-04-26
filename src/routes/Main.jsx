@@ -9,7 +9,7 @@ function Main() {
   return (
     <>
         <Banner gameData={maindata.bannerGames}/>
-        <Carousel ai={true} title={"AI 추천 게임"} />
+        <Carousel ai={true} title={"AI 추천 게임"} data={maindata.ai}/>
         <Carousel rank={true} title={"TOP 10"} data={maindata.top10Games} />
     </>
   );

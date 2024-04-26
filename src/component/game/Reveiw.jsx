@@ -52,12 +52,12 @@ export function SummaryReview({testId, reviewSummaryData}){
                     <h2>테스터 피드백 요약</h2>
                 </div>
                 <div className='feedback-and-count clickable'>
-                    {reviewSummaryData.testRound + "차"}
+                    {reviewSummaryData.testRound ? reviewSummaryData.testRound + "차" : ''}
                     {/* <DropdownIcon /> */}
                 </div>
             </div>
             <div className="review-content">
-                {reviewSummaryData.reviewSummaryText}
+                {reviewSummaryData.reviewSummaryText ?? '아직 피드백이 없습니다.'}
             </div>
         </div>
     );

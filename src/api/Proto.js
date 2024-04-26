@@ -225,8 +225,9 @@ export async function getMainGameInfo() {
   try {
     const top10Games = await getTop10Games();
     const bannerGames = await getRecentGameList();
+    const ai = await getAiGame("");
 
-    return { top10Games, bannerGames };
+    return { top10Games, bannerGames, ai };
   } catch (error) {
     console.error("An error occurred during get main game info:", error);
     throw error;
@@ -249,6 +250,26 @@ export async function engageGame(testId, email) {
     return res_text;
   } catch (error) {
     console.error("An error occurred during engage game:", error);
+    throw error;
+  }
+}
+
+// ai 게임 불러오기
+export async function getAiGame(email) {
+  const requestURL = `/proto/ai?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const aiGame = await res.json();
+    return aiGame;
+  } catch (error) {
+    console.error("An error occurred during get ai game:", error);
     throw error;
   }
 }

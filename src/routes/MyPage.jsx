@@ -45,7 +45,7 @@ function ReviewList({user}) {
     }, [user]);
 
     const reviewList = reviews.map((review, index) => (
-        <ReviewItem key={index} gameName={review.gameName} testCount={review.testRound} />
+        <ReviewItem key={index} gameName={review.gameName} testCount={review.testRound} reviewText={review.reviewText} imgPath={review.imgPath} />
     ));
 
     return (
@@ -143,7 +143,9 @@ function FavGameList({user}) {
             imgPath={game.imgPath}
             testId={game.gameId}
             gameCategory={game.category}
-            reviewNum={game.reviewCount} />
+            reviewNum={game.reviewCount}
+            clickable={false}
+        />
     ));
     
     return (

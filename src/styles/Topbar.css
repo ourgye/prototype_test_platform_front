@@ -108,7 +108,7 @@ a{
     display: flex;
     width: 100vw;
     /* overflow:hidden; */
-    padding: 24px 36px;
+    padding: 16px 36px;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;

@@ -7,7 +7,7 @@ import { categoryListKR, categoryList } from '../../category';
 function GameItem(props) {
     const imgDefault = "https://firebasestorage.googleapis.com/v0/b/game-proto-8ffe0.appspot.com/o/turtoise.jpg?alt=media&token=a7d01c00-829f-4163-994e-6811a72cf632"
     
-    return (<Link className='game-item-wrapper' to={`/game/${props.gameId}`}>
+    return (<Link className='game-item-wrapper' to={props.clickable? `/game/${props.gameId}` : ''}>
         <img className='game-mypage-thumbnail-img' src={props.imgPath ?? imgDefault}/>
         <div className="game-description">
             <div className='game-description-left'>
@@ -22,7 +22,7 @@ function GameItem(props) {
             <div className="review-num">
                 <div>
                      {props.reviewNum}
-                </div>
+                </div>66
                 <ReviewIcon height={"20px"} width={"20px"} />
             </div>
         </div>

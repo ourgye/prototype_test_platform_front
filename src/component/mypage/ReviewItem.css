@@ -3,8 +3,8 @@
     flex-direction: row;
     gap: 28px;
     width: 1048px;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 /* 게임 섬네일 이미지 */
 .game-thumbnail{
@@ -52,8 +52,8 @@
 .my-review{
     display: grid;
     grid-template-columns: 28px auto;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     text-align: left;
     gap: 10px;
 }
