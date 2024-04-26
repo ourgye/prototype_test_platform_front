@@ -2,50 +2,92 @@ import "../styles/Topbar.css";
 import logo from "../logo.svg";
 import logoWhite from '../logo_white.svg'
 import { ReactComponent as SearchIcon } from "../icons/search.svg";
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import GameCategoryDropdown from "./GameCategoryDropdown";
 import { Link } from "react-router-dom";
+// api 
+import { getUserSession, logout } from "../api/User";
+import { basePath, defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
 
+// 내비게이션 아이템
 function NavItems(props) {
   const [showGames, setShowGames] = useState(false);
-  const onClickGames = ()=>{setShowGames(!showGames)}
+  const onClickGames = () => { setShowGames(!showGames) }
 
   return (
-    <Link className="navItem" to={props.href} onClick={props.games? onClickGames: undefined}>
+    <Link className="nav-item" to={props.href} onClick={props.games? onClickGames: undefined}>
       {props.name}
       {showGames && <GameCategoryDropdown/>}
     </Link>
   );
 }
 
+// 검색창
+// api 추가 필요
 function SearchBox(props) {
   return (
-    <div className="SearchBox">
-      <input className="SearchInput" type="text" placeholder="검색어를 입력하세요."/>
-      <SearchIcon width={20} height={20} />
+    <div className="search-box">
+      <input className="search-input" type="text" placeholder="검색어를 입력하세요." />
+      <div className="search-icon">
+        <SearchIcon width={20} height={20} />
+      </div>
     </div>
   );
 }
 
+// 상단바 버튼
 function TopbarBtn(props) {
   return (
     <Link
       className={
-        props.color == "yellow" ? "btnYellow TopbarBtn" : "btnGrey TopbarBtn"
+        props.color == "yellow" ? "yellow-btn topbar-btn" : "grey-btn topbar-btn"
       }
       to={props.href}
+      onClick={props.onClick}
     >
       {props.name}
     </Link>
   );
 }
 
+// 로그인 상태일 때 상단바 버튼
+function TopbarLogin({ user }) {
+  const [userImg, setUserImg] = useState();
+
+  useEffect(() => {
+    getUserProfileURL(user.email).then((url) => {
+      setUserImg(url);
+    });
+  }, [user.email]);
+  
+  return (<>
+    <img src={userImg} alt="프로필 사진"  className="topbar-user-profile"/>
+    <TopbarBtn name="로그아웃" onClick={() => {
+      logout();
+      window.location.reload();
+    }} />
+    <TopbarBtn name="프로토타입 제작"  href='/proto' color="yellow" />
+  </>
+  );
+}
+
+// 미로그인 상태일 때 상단바 버튼
+function TopbarDefault() {
+  return (
+    <>
+      <TopbarBtn name="로그인" href='/signin' />
+      <TopbarBtn name="가입" href="/signup" />
+    </>
+  );
+  
+}
+
+// 상단바 컴포넌트
 function Topbar() {
   //스크롤 위치 갱신
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isYmoved, setIsYmoved] = useState(false);
+  const user = getUserSession();
 
   const updateScroll = () => {
     setScrollY(window.scrollY || document.documentElement.scrollTop);
@@ -64,22 +106,19 @@ function Topbar() {
   }, [scrollY])
 
   return (
-    <div className={`Topbar ${isScrolled? 'scrolled': ''}`}>
-      <div className="topbarLeft">
+    <div className={`topbar ${isScrolled? 'scrolled': ''}`}>
+      <div className="topbar-left">
         <Link to="/"><img src={isScrolled? logoWhite: logo} /></Link>
-        {/* 내비게이션 코드 수정 필요 */}
         <ul id="nav">
-          <NavItems name="게임들" games={true}/>
-          <NavItems name="마이페이지" href="." />
+          <NavItems name="게임들" games={true} href="#"/>
+          <NavItems name="마이페이지" href="/mypage" />
           <NavItems name="사용자 가이드" href="." />
         </ul>
       </div>
-      <div className="topbarRight">
+      <div className="topbar-right">
         <SearchBox />
-        <div className="buttons">
-          <TopbarBtn name="로그인" href='/SignIn' />
-          <TopbarBtn name="가입" href="/SignUp" />
-          <TopbarBtn name="프로토타입 제작" color="yellow" />
+        <div className="top-bar-buttons">
+          {user ? <TopbarLogin user={user} /> : <TopbarDefault/>}
         </div>
       </div>
     </div>

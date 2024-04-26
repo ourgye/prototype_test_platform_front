@@ -1,0 +1,30 @@
+.game-detail-review-section{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.game-detail-review-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+
+    /* 하단 바 보이기위해(전체적으로 조정 필요) */
+    margin-bottom: 100px;
+    padding-top: 30px;
+}
+.game-detail-no-review{
+    padding: 36px;
+    font-size: 16px;
+    font-weight: medium;
+    color: var(--text);
+}
+
+.review-search-tab{
+    margin-top: 30px;
+}

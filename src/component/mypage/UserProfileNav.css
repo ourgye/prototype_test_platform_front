@@ -1,0 +1,15 @@
+.user-profile-nav{
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    width: inherit;
+}
+.user-profile-nav-item{
+    background-color: var(--background);
+    padding: 16px;
+    font-size: 20px;
+    border-radius: 16px 16px 0px 0px;
+    cursor: pointer;
+}
+.clicked{
+    background-color: var(--primary);
+}

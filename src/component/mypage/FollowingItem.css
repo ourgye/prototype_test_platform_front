@@ -1,0 +1,68 @@
+.following-item-container{
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 24px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-thumbnail{
+    width: 72px;
+    height: 72px;
+    background-color: var(--background);
+    border-radius: 50%;
+}
+
+.following-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px;
+}
+
+.following-name-fav{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.following-name{
+    font-size: 24px;
+}
+
+/* 사용자 선호 카테고리 */
+.following-fav{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.fav-category{
+    font-size: 12px;
+    padding: 4px 8px;
+    border: 1px solid black;
+    border-radius: 16px;
+/* for font align */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+}
+
+/* 언팔로우 버튼 */
+.unfollow-btn{
+    height: 32px;
+    padding: 4px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    font-size: 14px;
+}
+.unfollow-btn:hover{
+    font-weight: bold
+}

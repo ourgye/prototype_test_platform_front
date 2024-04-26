@@ -1,4 +1,4 @@
-.RecommendContainer{
+.game-item-main{
     display: flex;
     width:300px;
     height: fit-content;
@@ -8,13 +8,13 @@
     overflow: hidden;
 }
 
-.thumbnail{
+.thumbnail-main{
     width: inherit;  
     height: 168.439px;
     background-color:var(--background);
 }
 
-.gameName{
+.game-name-main{
     background-color: var(--primary);
     color: var(--text);
     width: inherit;

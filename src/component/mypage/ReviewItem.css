@@ -1,0 +1,59 @@
+.review-item-contianer{
+    display:flex;
+    flex-direction: row;
+    gap: 28px;
+    width: 1048px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+/* 게임 섬네일 이미지 */
+.game-thumbnail{
+    background-color: var(--background);
+    width: 213.33px;
+    height: 120px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.game-review-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 게임 제목과 카테고리 */
+.game-info-container{
+    text-align: left;
+}
+
+.game-name-test{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+.game-name{
+    font-size: 24px;
+    font-weight: 500;
+}
+.test-count{
+    padding: 0 20px;
+    background-color: var(--primary);
+    border-radius: 4px;
+    font-size: 16px;
+}
+.game-category{
+    color: #949494;
+    font-size: 16px;
+}
+
+/* 게임 리뷰 */
+.my-review{
+    display: grid;
+    grid-template-columns: 28px auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    gap: 10px;
+}

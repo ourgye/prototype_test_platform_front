@@ -1,0 +1,19 @@
+.section-header{
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--background);
+    font-size: 32px;
+    font-weight: bold;
+    padding: 4px 16px;
+    margin: 0px 0px;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+
+    margin-bottom: 32px;
+}
+.pointer-cursor{
+    cursor: pointer;
+}

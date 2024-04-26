@@ -1,4 +1,4 @@
-.BannerSlideItem{
+.banner-slide-item{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -10,14 +10,15 @@
 }
 
 /* banner image (game image) */
-.BannerImage{
+.banner-image{
     height: inherit;
     width: 590px;
-    background-color: var(--accent)
+    background-color: var(--accent);
+    object-fit: cover;
 }
 
 /* banner text(game name and category) */
-.BannerText{
+.banner-text{
     display: flex;
     padding: 0px 64px;
     flex-direction: column;
@@ -25,12 +26,14 @@
     gap: 64px;
     flex: 1 0 0;
 }
-.GameName{
+.banner-game-name{
     color: var(--text);
     font-size: 44px;
+    line-break: strict;
+    text-align: start;
     font-weight: 500;
 }
-.GameCategory{
+.banner-game-category{
     display: flex;
     gap: 8px;
     color: var(--text);

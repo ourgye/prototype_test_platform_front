@@ -1,0 +1,42 @@
+.new-project-tab{
+    margin: 20px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.document-title{
+    align-self: flex-start;
+    margin: 20px;
+}
+.document-title h1, p{
+    text-align: start;
+    margin: 0;
+}
+
+
+/* 자간 : 모든 곳에 적용해야할듯한데.. */
+/* .document-title h1, p{
+    letter-spacing: 2px;
+} */
+
+.new-game-input-wrapper{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin: 100px 32px;
+}
+.new-game-input{
+    width: inherit;
+    text-align: start;
+}
+
+/* 카테고리 */
+.added-category-wrapper{
+    padding-top: 4px;
+}
+.add-category-icon{
+    cursor: pointer;
+}
+

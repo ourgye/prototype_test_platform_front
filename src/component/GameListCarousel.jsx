@@ -3,12 +3,14 @@ import '../styles/GameListCarousel.css'
 import GameItem from './GameItem'
 import { ReactComponent as LeftArrow } from '../icons/chevron_left.svg'
 import { ReactComponent as RightArrow } from '../icons/chevron_right.svg'
+import { Link } from 'react-router-dom';
 
 
-function GameListCarousel(props) {
-    const GameItemList = Array.from({ length: 16 }, (_, index) => (
-        <GameItem key={index} gameName={index} />
-    ));
+function GameListCarousel({title, data}) {
+    const GameItemList = data.gameList.map((game, index) => {
+        console.log(game)
+        return <Link to={`/game/${game.testId}`}><GameItem key={game.gameId} gameName={game.gameName} imgPath={game.imgPath}/></Link>
+    });
 
     //game list pagination (< 1 2 3 4 5 >)
     const Pagination = (curr, start, end) => {
@@ -19,21 +21,21 @@ function GameListCarousel(props) {
         ))
 
         return (
-            <div className="pagination">
-                <div className="Arrow"><LeftArrow width={32} height={32}/></div>
+            <div className="games-pagination">
+                <div className="arrow"><LeftArrow width={32} height={32}/></div>
                 <div className="pages">{pages}</div>
-                <div className="Arrow"><RightArrow width={32} height={32} /></div>
+                <div className="arrow"><RightArrow width={32} height={32} /></div>
             </div>
         )
     }
 
     return (
-        <div className="gameListContainer">
-            <div className="title">{props.title}</div>
-            <div className="gameList">
+        <div className="game-category-list-container">
+            <div className="title">{title}</div>
+            <div className="game-category-list">
                 {GameItemList}
             </div>
-            {Pagination(1, 1, 1)}
+            {/* {Pagination(1, 1, 1)} */}
         </div>
     )
 }

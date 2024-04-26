@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# msw
+/src/mocks
+
+# temp file
+/src/image
+/src/firebase
+
+/src/.env

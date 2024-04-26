@@ -1,4 +1,4 @@
-.gameCategoryDropdown{
+.game-category-dropdown-wrapper{
     position: absolute;
     width: fit-content;
     background-color: white;
@@ -8,8 +8,7 @@
     overflow: hidden;
     
 }
-
-.gameCategoryDropdown a{
+.game-category-dropdown-wrapper a{
     list-style: none;
     font-size: 16px;
     color: black;
@@ -24,22 +23,31 @@
     justify-content: center;
 }
 
-.gameCategoryDropdown li:hover{
+
+.game-category-dropdown-wrapperli:hover{
     background-color: var(--primary);
 }
 
-.gameCategoryDropdown .categoryHeader{
+.category-header{
+    font-size: 16px;
     color: white;
+    width: 210px;
+    height: 28px;
     background-color: var(--accent);
+
+    /* text vertically center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.gameCategoryDropdown .moreIcon{
+.more-icon{
     background-color: var(--background);
 }
-.gameCategoryDropdown .categoryHeader:hover{
+.category-header:hover{
     background-color: var(--accent);
     cursor: default;
 }
-.gameCategoryDropdown .moreIcon:hover{
+.more-icon:hover{
     background-color: var(--background);
 }
