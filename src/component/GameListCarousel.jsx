@@ -6,11 +6,11 @@ import { ReactComponent as RightArrow } from '../icons/chevron_right.svg'
 import { Link } from 'react-router-dom';
 
 
-function GameListCarousel({title, data}) {
-    const GameItemList = data.gameList.map((game, index) => {
+function GameListCarousel({ title, data }) {
+    const GameItemList = data.gameList?.length > 0 ? data.gameList.map((game, index) => {
         console.log(game)
         return <Link to={`/game/${game.testId}`}><GameItem key={game.gameId} gameName={game.gameName} imgPath={game.imgPath}/></Link>
-    });
+    }) : null;
 
     //game list pagination (< 1 2 3 4 5 >)
     const Pagination = (curr, start, end) => {

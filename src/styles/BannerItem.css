@@ -13,7 +13,7 @@
 .banner-image{
     height: inherit;
     width: 590px;
-    background-color: var(--accent);
+    background-color: var(--background);
     object-fit: cover;
 }
 

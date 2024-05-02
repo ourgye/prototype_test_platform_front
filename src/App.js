@@ -36,6 +36,7 @@ import {
 } from "./api/Proto.js";
 import { makeManyUser } from "./api/TempApi.js";
 import SelectedGame from "./routes/SelectedGame.jsx";
+import Search from "./routes/Search.jsx";
 
 const queryClient = new QueryClient();
 
@@ -58,7 +59,7 @@ function App() {
           index: true,
           element: <Main />,
           id: "main",
-          loader: async () => {
+          loader: async ({ params }) => {
             try {
               // 게임 데이터 미리 로딩
               const mainGameData = await getMainGameInfo();
@@ -69,6 +70,11 @@ function App() {
               return null;
             }
           },
+        },
+        {
+          path: "search",
+          element: <Search />,
+          id: "search",
         },
         {
           path: "signin",

@@ -29,7 +29,7 @@ function SearchReview({value, setValue, onClickSearch}){
 }
 
 
-function TesterReview({ testId, onClickReviewWrite, owner }) {
+function TesterReview({ testId, gameId, onClickReviewWrite, owner }) {
     const [isExpand, setIsExpand] = useState(true);
     
     const [reviewData, setReviewData] = useState(); 
@@ -57,9 +57,9 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
     const { mutate: getKeywordReview } = useMutation({
         mutationFn: () => {
             if (keyword == '') {
-                return getReviewListOfTest(testId)
+                return getReviewListOfTest(gameId)
             } else {
-                return searchReview(testId, keyword, reviewSummaryData.testRound)
+                return searchReview(gameId, keyword, reviewSummaryData.testRound)
             }
         },
         onSuccess: (res) => {
@@ -73,7 +73,7 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
 
     const testOwner =
         <>
-            <SummaryReview testId={testId} reviewSummaryData={reviewSummaryData} />
+            <SummaryReview testId={testId} gameId={gameId} reviewSummaryData={reviewSummaryData} />
             <SearchReview value={keyword} setValue={setKeyword} onClickSearch={getKeywordReview} />
         </>
     

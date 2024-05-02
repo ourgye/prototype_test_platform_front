@@ -123,7 +123,7 @@ function UploadGame({gameId}) {
             const res = await makeNewTest(gameId, user.email, {
                 round: newProject.round,
                 gameName: newProject.gameName,
-                description: newProject.description?? 'hee',
+                description: newProject.description?? 'game description',
                 startDate: newProject.startDate+"T00:00:00.000000",
                 endDate: newProject.endDate+"T00:00:00.000000",
                 reviewDate: newProject.reviewDate+"T00:00:00.000000",

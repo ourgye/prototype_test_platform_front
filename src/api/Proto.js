@@ -273,3 +273,23 @@ export async function getAiGame(email) {
     throw error;
   }
 }
+
+// 게임 키워드로 찾기
+export async function searchGameByKeyword(keyword) {
+  const requestURL = `/proto/search?keyword=${keyword}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const searchResult = await res.json();
+    return searchResult;
+  } catch (error) {
+    console.error("An error occurred during search game by keyword:", error);
+    throw error;
+  }
+}

@@ -8,7 +8,7 @@ import FollowingItem from "../component/mypage/FollowingItem";
 
 import '../styles/MyPage.css'
 import { useEffect, useState } from "react";
-import { useRouteLoaderData } from "react-router-dom";
+import { useLocation, useRouteLoaderData } from "react-router-dom";
 import { defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
 import { getFollowingList, getUserSession } from "../api/User";
 import { getReviewList } from "../api/Review";
@@ -74,12 +74,13 @@ function GameList({ user }) {
 
     const gameList = games.map((game, index) => (
         <GameItem key={index}
-            gameId={game.testId}
+            testId={game.testId}
             title={game.gameName.length > 15 ? game.gameName.slice(0, 15) + '...' : game.gameName}
             testCount={game.testRound}
             gameCategory={game.category}
             reviewNum={game.reviewCount}
             imgPath={game.imgPath}
+            clickable={true}
         />
     ));
 
@@ -92,7 +93,8 @@ function GameList({ user }) {
 
 function FollowingList({user}) {
     const [followings, setFollowings] = useState([]);
-    
+    const [clickUnfollow, setClickUnfollow] = useState(false);
+
     useEffect(() => {
         const fetchFollowingList = async () => {
             try {
@@ -101,13 +103,15 @@ function FollowingList({user}) {
             } catch (error) {
                 console.error('Error fetching following list:', error);
             }
+
+            if (clickUnfollow) setClickUnfollow(false);
         };
 
         fetchFollowingList();
-    }, [user]);
+    }, [user, clickUnfollow]);
 
     const followingList = followings.map((following, index) => (
-        <FollowingItem key={index} userName={following.name} imgPath={following.imgPath} favCategories={[following.category1, following.category2, following.category3]}/>
+        <FollowingItem key={index} userName={following.userName} imgPath={following.imgPath} favCategories={[following.category1, following.category2, following.category3]} userEmail={following.userEmail} currentUserEmail={user} setClickUnfollow={setClickUnfollow} />
     ));
 
 
@@ -135,16 +139,17 @@ function FavGameList({user}) {
         fetchFavGames();
     }, [user]);
 
+
     const favGameList = favGames.map((game, index) => (
         <GameItem
             key={index}
             title={game.gameName.length > 15 ? game.gameName.slice(0, 15) + '...' : game.gameName}
             testCount={game.round}
             imgPath={game.imgPath}
-            testId={game.gameId}
+            testId={game.testId}
             gameCategory={game.category}
             reviewNum={game.reviewCount}
-            clickable={false}
+            clickable={true}
         />
     ));
     
@@ -160,6 +165,7 @@ function MyPage() {
     const user = userinfo.user;
     const userEmail = getUserSession().email;
 
+    
     const [userImg, setUserImg] = useState();
 
     useEffect(() => {

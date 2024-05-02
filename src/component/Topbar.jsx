@@ -2,12 +2,12 @@ import "../styles/Topbar.css";
 import logo from "../logo.svg";
 import logoWhite from '../logo_white.svg'
 import { ReactComponent as SearchIcon } from "../icons/search.svg";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import GameCategoryDropdown from "./GameCategoryDropdown";
 import { Link } from "react-router-dom";
 // api 
 import { getUserSession, logout } from "../api/User";
-import { basePath, defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
+import { getUserProfileURL } from "../firebase/firebaseStorage";
 
 // 내비게이션 아이템
 function NavItems(props) {
@@ -25,12 +25,14 @@ function NavItems(props) {
 // 검색창
 // api 추가 필요
 function SearchBox(props) {
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   return (
     <div className="search-box">
-      <input className="search-input" type="text" placeholder="검색어를 입력하세요." />
-      <div className="search-icon">
+      <input className="search-input" type="text" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e)=>setSearchKeyword(e.target.value)}/>
+      <Link className="search-icon" to={'/search?keyword='+searchKeyword}>
         <SearchIcon width={20} height={20} />
-      </div>
+      </Link>
     </div>
   );
 }
