@@ -227,7 +227,18 @@ function GameDetail() {
                     <SectionHeader title="게임 설명" isExpand={isExpandDesc} onClickArrow={setIsExpandDesc} />
                     {isExpandDesc && <div className="game-detail-description" dangerouslySetInnerHTML={{ __html: gameInfo.description }} />}
                 </div>
-                <TesterReview currentGameStatus={currentGameStatus} gameId={gameInfo.gameId} testId={params.testId} onClickReviewWrite={()=>setShowReviewUpload(true)} owner={userInfo.userId == gameInfo.userId}/>
+                <TesterReview currentGameStatus={currentGameStatus}
+                    gameId={gameInfo.gameId} testId={params.testId}
+                    onClickReviewWrite={() => {
+                        if (!userInfo) {
+                            alert("로그인이 필요한 서비스입니다.");
+                            return;
+                        }
+                        setShowReviewUpload(true);
+                    }}
+                    owner={userInfo.userId == gameInfo.userId}
+                    userEmail={userInfo.email}
+                />
             </div>
             <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} onClickButton={handleClickParticipate} />
         </>

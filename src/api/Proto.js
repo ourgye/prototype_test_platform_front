@@ -221,11 +221,11 @@ export async function getRecentGameList() {
 }
 
 // 메인 페이지 게임 정보 가져오기
-export async function getMainGameInfo() {
+export async function getMainGameInfo(user) {
   try {
     const top10Games = await getTop10Games();
     const bannerGames = await getRecentGameList();
-    const ai = await getAiGame("");
+    const ai = user ? await getAiGame(user.email) : await getRecentGameList();
 
     return { top10Games, bannerGames, ai };
   } catch (error) {

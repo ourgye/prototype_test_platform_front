@@ -116,3 +116,55 @@ export async function searchReview(gameId, keyword, testRound) {
     throw error;
   }
 }
+
+// 리뷰 개선 완료
+export async function reflectReview(testUserEmail, reviewId) {
+  const requestURL = `/review/reflected/${reviewId}`;
+
+  const data = {
+    testUserEmail: testUserEmail,
+    reviewReflected: "Y",
+  };
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// 리뷰 개선 미완료
+export async function rejectReview(testUserEmail, reviewId) {
+  const requestURL = `/review/reflected/${reviewId}`;
+
+  const data = {
+    testUserEmail: testUserEmail,
+    reviewReflected: "N",
+  };
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}

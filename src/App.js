@@ -37,6 +37,7 @@ import {
 import { makeManyUser } from "./api/TempApi.js";
 import SelectedGame from "./routes/SelectedGame.jsx";
 import Search from "./routes/Search.jsx";
+import { get } from "firebase/database";
 
 const queryClient = new QueryClient();
 
@@ -59,10 +60,11 @@ function App() {
           index: true,
           element: <Main />,
           id: "main",
-          loader: async ({ params }) => {
+          loader: async () => {
             try {
               // 게임 데이터 미리 로딩
-              const mainGameData = await getMainGameInfo();
+              const user = getUserSession();
+              const mainGameData = await getMainGameInfo(user);
 
               return mainGameData;
             } catch (error) {
