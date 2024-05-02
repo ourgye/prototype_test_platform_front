@@ -142,7 +142,7 @@ function ModifyProfileForm() {
         onSuccess: (res) => {
             alert("회원 정보 변경 완료");
 
-            navigate("/mypage");
+            window.location.href = '/mypage';
         },
         onError: (error) => {
             console.log("oops.. an Error occurred during put method in user infomation modification")

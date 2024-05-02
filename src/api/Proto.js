@@ -221,11 +221,11 @@ export async function getRecentGameList() {
 }
 
 // 메인 페이지 게임 정보 가져오기
-export async function getMainGameInfo() {
+export async function getMainGameInfo(user) {
   try {
     const top10Games = await getTop10Games();
     const bannerGames = await getRecentGameList();
-    const ai = await getAiGame("");
+    const ai = user ? await getAiGame(user.email) : await getRecentGameList();
 
     return { top10Games, bannerGames, ai };
   } catch (error) {
@@ -270,6 +270,26 @@ export async function getAiGame(email) {
     return aiGame;
   } catch (error) {
     console.error("An error occurred during get ai game:", error);
+    throw error;
+  }
+}
+
+// 게임 키워드로 찾기
+export async function searchGameByKeyword(keyword) {
+  const requestURL = `/proto/search?keyword=${keyword}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const searchResult = await res.json();
+    return searchResult;
+  } catch (error) {
+    console.error("An error occurred during search game by keyword:", error);
     throw error;
   }
 }

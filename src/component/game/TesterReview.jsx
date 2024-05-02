@@ -10,6 +10,7 @@ import {ReactComponent as SearchIcon} from '../../icons/search.svg'
 
 import './TesterReview.css'
 import { useMutation } from '@tanstack/react-query';
+import { set } from 'firebase/database';
 
 function SearchReview({value, setValue, onClickSearch}){ 
     return (
@@ -29,9 +30,9 @@ function SearchReview({value, setValue, onClickSearch}){
 }
 
 
-function TesterReview({ testId, onClickReviewWrite, owner }) {
+function TesterReview({ testId, gameId, onClickReviewWrite, owner, userEmail }) {
     const [isExpand, setIsExpand] = useState(true);
-    
+
     const [reviewData, setReviewData] = useState(); 
     const [reviewList, setReviewList] = useState([]);
     const [reviewSummaryData, setReviewSummaryData] = useState({});
@@ -42,7 +43,6 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
             setReviewData(res);
             if(res) setReviewList(res.reviewList);
         })
-
     }, [testId]);
     
     useEffect(() => {
@@ -57,9 +57,9 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
     const { mutate: getKeywordReview } = useMutation({
         mutationFn: () => {
             if (keyword == '') {
-                return getReviewListOfTest(testId)
+                return getReviewListOfTest(gameId)
             } else {
-                return searchReview(testId, keyword, reviewSummaryData.testRound)
+                return searchReview(gameId, keyword, reviewSummaryData.testRound)
             }
         },
         onSuccess: (res) => {
@@ -73,7 +73,7 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
 
     const testOwner =
         <>
-            <SummaryReview testId={testId} reviewSummaryData={reviewSummaryData} />
+            <SummaryReview testId={testId} gameId={gameId} reviewSummaryData={reviewSummaryData} />
             <SearchReview value={keyword} setValue={setKeyword} onClickSearch={getKeywordReview} />
         </>
     
@@ -88,7 +88,7 @@ function TesterReview({ testId, onClickReviewWrite, owner }) {
                     {owner ? testOwner : tester}
                     <div className="game-detail-review-wrapper">
                         {(reviewData && reviewList.length > 0)? reviewList.map((review) => {
-                            return <Review round={reviewData['testRound']} data={review} feedbackDone={review.feedbackDone} owner={owner} />
+                            return <Review round={reviewData['testRound']} data={review} feedbackDone={review.feedbackDone} owner={owner} userEmail={userEmail} />
                         }) : <div className='game-detail-no-review'>아직까지 작성된 리뷰가 없습니다.</div>}
                     </div>
                     </>

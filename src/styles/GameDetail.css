@@ -99,6 +99,9 @@
 
 /* 게임 설명 */
 .game-detail-detail-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: fit-content
 }
 
@@ -108,7 +111,8 @@
     align-items: flex-start;
     justify-content: center;
     gap: 24px;
-    width: 1000px;
+    margin-bottom: 20px;
+    width: 900px;
 }
 
 

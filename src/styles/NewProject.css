@@ -105,6 +105,7 @@
     gap: 4px;
 }
 
+/* 게임 설명 에디터*/
 .game-description-editor{
     display: flex;
     justify-content: center;

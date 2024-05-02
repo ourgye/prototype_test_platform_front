@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { getUserSession } from "../api/User";
 import { useMutation } from "@tanstack/react-query";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { deleteFav, postFav } from "../api/Fav";
 import { engageGame } from "../api/Proto";
 
@@ -113,6 +115,12 @@ function GameDetail() {
     });
 
     const handleClickFav = () => {
+        // 로그인 확인
+        if (!userInfo) {
+            alert("로그인이 필요한 서비스입니다.");
+            return;
+        }
+
         if(isFav) {
             handleClickFavDelete();
         } else {
@@ -127,12 +135,55 @@ function GameDetail() {
             alert(res);
         },
         onError: (error) => {
+            if (error == "Error: Forbidden") { 
+                alert("로그인이 필요한 서비스입니다.");
+                return;
+            }
             alert(error);
         }
     });
 
+    // 현재 페이지 복사
+    const CopyUrlButton = () => {
+        const currentUrl = window.location.href;
+        const handleCopyUrl = () => {
+            navigator.clipboard.writeText(currentUrl)
+                .then(() => {
+                    // toast message
+                    toast("클립보드에 복사되었습니다", {
+                        position: "bottom-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    });
+                })
+                .catch((error) => {
+                    toast.error("클립보드에 복사가 실패하였습니다",{
+                        position: "bottom-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    });
+                });
+        }
+
+        handleCopyUrl();
+        
+    };
+    
     return (
         <>
+            <ToastContainer />
             <WhereAmI gameName={gameInfo.gameName} categoryName={gameInfo.category}/>
             {showReviewUpload && <ReviewUploadTab gameName={gameInfo.gameName} userName={userInfo.userName} onClickClose={()=>{setShowReviewUpload(false)}} testId={params.testId}/>}
             <div className="game-detail-wrapper">
@@ -146,8 +197,7 @@ function GameDetail() {
                             {/* <span className="game-detail-age">{test.restricted_age}</span> */}
                         </div>
                         <div className="game-detail-user-name">
-                            {/* 유저명 삽입해야함 */}
-                            <UserInfo user={gameInfo.userId}/>
+                            <UserInfo gameUserName={gameInfo.userName} gameUserEmail={gameInfo.userEmail} currentUserEmail={userInfo.email}/>
                         </div>
                     </div>
                 </div>
@@ -158,7 +208,7 @@ function GameDetail() {
                             <div className="game-detail-button" onClick={handleClickFav}>
                                 {isFav ? <FavFillIcon width = { '24px' } fill = "var(--accent)"/> : <FavEmptyIcon width={'24px'} fill="var(--accent)" />}
                             </div>
-                            <div className="game-detail-button">
+                            <div className="game-detail-button" onClick={CopyUrlButton}>
                                 <ShareIcon width={'24px'}/>
                             </div>
                             <a className="game-detail-button download-button" href={gameInfo.downloadLink} download={gameInfo.gameName} >
@@ -177,7 +227,18 @@ function GameDetail() {
                     <SectionHeader title="게임 설명" isExpand={isExpandDesc} onClickArrow={setIsExpandDesc} />
                     {isExpandDesc && <div className="game-detail-description" dangerouslySetInnerHTML={{ __html: gameInfo.description }} />}
                 </div>
-                <TesterReview currentGameStatus={currentGameStatus} testId={params.testId} onClickReviewWrite={()=>setShowReviewUpload(true)} owner={userInfo.userId == gameInfo.userId}/>
+                <TesterReview currentGameStatus={currentGameStatus}
+                    gameId={gameInfo.gameId} testId={params.testId}
+                    onClickReviewWrite={() => {
+                        if (!userInfo) {
+                            alert("로그인이 필요한 서비스입니다.");
+                            return;
+                        }
+                        setShowReviewUpload(true);
+                    }}
+                    owner={userInfo.userId == gameInfo.userId}
+                    userEmail={userInfo.email}
+                />
             </div>
             <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} onClickButton={handleClickParticipate} />
         </>

@@ -2,7 +2,7 @@
     position: relative;
     font-size: 24px;
     padding: 4px;
-    width: 150px;
+    width: fit-content;
     cursor: pointer;
 }
 .posted-user:hover{
@@ -21,9 +21,8 @@
     border: 1px solid var(--background);
     padding: 8px;
     font-size: 16px;
-    border-radius: 8px;
-    left: 150px;
-    top: 10px;
+    border-radius: 8px;;
+    top: 50px;
 }
 
 .user-follow:hover{
