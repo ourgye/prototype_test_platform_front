@@ -12,7 +12,7 @@ import { useLocation, useRouteLoaderData } from "react-router-dom";
 import { defaultUserProfile, getUserProfileURL } from "../firebase/firebaseStorage";
 import { getFollowingList, getUserSession } from "../api/User";
 import { getReviewList } from "../api/Review";
-import { getMyGames } from "../api/Proto";
+import { getEngagedList, getMyGames } from "../api/Proto";
 import { getFav } from '../api/Fav';
 
 function WhereAmI(props) {
@@ -30,6 +30,7 @@ function WhereAmI(props) {
 }
 function ReviewList({user}) {
     const [reviews, setReviews] = useState([]);
+    const [engagedList, setEngagedList] = useState([]);
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -41,12 +42,28 @@ function ReviewList({user}) {
             }
         };
 
+        const fetchEngageGames = async () => {
+            try {
+                const response = await getEngagedList(user);
+                setEngagedList(response);
+            } catch (error) {
+                console.error('Error fetching engage games:', error);
+            }
+        }
+
         fetchReviews();
+        fetchEngageGames();
     }, [user]);
 
-    const reviewList = reviews.map((review, index) => (
-        <ReviewItem key={index} gameName={review.gameName} testCount={review.testRound} reviewText={review.reviewText} imgPath={review.imgPath} />
-    ));
+    const reviewList = engagedList.map((test, i) => {
+        const index = reviews.findIndex(review => review.testId === test.testId);
+        console.log("reviewlist", index)
+        if (index !== -1) {
+            return <ReviewItem key={test.testId} gameName={test.gameName} testCount={test.round} reviewText={reviews[index].reviewText} imgPath={test.imgPath} />
+          } else {
+            return <ReviewItem key={test.testId} gameName={test.gameName} testCount={test.round} reviewText={"리뷰를 아직 작성하지 않았습니다."} imgPath={test.imgPath} />
+        }
+   });
 
     return (
         <div className="review-list inner-list">

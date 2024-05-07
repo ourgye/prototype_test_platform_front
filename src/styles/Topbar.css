@@ -19,7 +19,8 @@ a{
 #nav{
     display: flex;
     width: 360px;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 48px;
     align-items: center;
     flex-shrink: 0;
 }
