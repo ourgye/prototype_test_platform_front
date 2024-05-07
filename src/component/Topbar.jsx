@@ -114,7 +114,7 @@ function Topbar() {
         <ul id="nav">
           <NavItems name="게임들" games={true} href="#"/>
           <NavItems name="마이페이지" href="/mypage" />
-          <NavItems name="사용자 가이드" href="." />
+          {/* <NavItems name="사용자 가이드" href="." /> */}
         </ul>
       </div>
       <div className="topbar-right">

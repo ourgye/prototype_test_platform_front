@@ -20,8 +20,9 @@ import { getUserSession } from "../api/User";
 import { useMutation } from "@tanstack/react-query";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { deleteFav, postFav } from "../api/Fav";
-import { engageGame } from "../api/Proto";
+import { checkDib, deleteFav, postFav } from "../api/Fav";
+import { checkEngaged, engageGame } from "../api/Proto";
+import { set } from "firebase/database";
 
 const gameStatus = ["recruiting","reviewing", "done", "yet"];
 
@@ -65,11 +66,12 @@ function parseDate(date) {
     return parsedDate.getFullYear() + "-" + (parsedDate.getMonth() + 1) + "-" + parsedDate.getDate();
 }
 
-function getGameStatus(today, startDate, endDate, reviewDate) { 
+function getGameStatus(today, startDate, endDate, reviewDate, isEngaged) { 
     // 테스트 사용자 모집기간(테스트 시작 ~ 테스트 종료 전) -> 리뷰 작성기간(테스트 종료 후 ~ 리뷰 마감일 전) -> 리뷰 마감일 후(테스트 종료 후
     if (today < startDate) {
         return gameStatus[3];
     } else if (today >= startDate && today <= endDate) {
+        if (isEngaged) return gameStatus[1];
         return gameStatus[0];
     } else if (today > endDate && today <= reviewDate) {
         return gameStatus[1];
@@ -87,6 +89,7 @@ function GameDetail() {
 
     const gameInfo = useLoaderData('gameDetail');
     const [showReviewUpload, setShowReviewUpload] = useState(false);
+    const [isEngaged, setIsEngaged] = useState(false);
     const [isFav, setIsFav] = useState(false);
     const [isExpandDesc, setIsExpandDesc] = useState(true);    
     const params = useParams(); 
@@ -95,8 +98,34 @@ function GameDetail() {
     const testEnddate = new Date(gameInfo.endDate);
     const reviewEnddate = new Date(gameInfo.reviewDate);
 
-    const currentGameStatus = getGameStatus(today, testStartdate, testEnddate, reviewEnddate);
+    const currentGameStatus = getGameStatus(today, testStartdate, testEnddate, reviewEnddate, isEngaged);
     const userInfo = getUserSession(); 
+
+    // 테스트 참여중인지 확인
+    useEffect(() => {
+        if (userInfo) {
+            const checkIsEngaged = async () => {
+                try {
+                    const response = await checkEngaged(userInfo.email, params.testId);
+                    setIsEngaged(response);
+                } catch (error) {
+                    console.error('Error fetching favorite games:', error);
+                }
+            }
+            const checkIsFav = async () => {
+                try {
+                    const response = await checkDib(userInfo.email, params.testId);
+                    setIsFav(response);
+                } catch (error) {
+                    console.error('Error fetching favorite games:', error);
+                }
+            }
+
+            checkIsEngaged(); 
+            checkIsFav();
+        }
+    }, [userInfo, params.testId]);
+
     
     const { mutate: handleClickFavPost } = useMutation({
         mutationFn: () => { return postFav(userInfo.email, params.testId) },
@@ -133,6 +162,7 @@ function GameDetail() {
         mutationFn: () => { return engageGame(params.testId, userInfo.email) },
         onSuccess: (res) => {
             alert(res);
+            setIsEngaged(true);
         },
         onError: (error) => {
             if (error == "Error: Forbidden") { 
@@ -142,6 +172,24 @@ function GameDetail() {
             alert(error);
         }
     });
+    // 다운로드 버튼 클릭시
+    const handleDownload = () => {
+        // 로그인 확인
+        if (!userInfo) {
+          alert("로그인이 필요한 서비스입니다.");
+          return;
+        }
+        
+        // 테스트 참여 여부 확인
+        if (!isEngaged) {
+          alert("먼저 테스트에 참여해주세요.");
+          return;
+        }
+        
+        // 다운로드 링크로 이동
+        window.location.href = gameInfo.downloadLink;
+    };
+      
 
     // 현재 페이지 복사
     const CopyUrlButton = () => {
@@ -211,7 +259,7 @@ function GameDetail() {
                             <div className="game-detail-button" onClick={CopyUrlButton}>
                                 <ShareIcon width={'24px'}/>
                             </div>
-                            <a className="game-detail-button download-button" href={gameInfo.downloadLink} download={gameInfo.gameName} >
+                            <a className="game-detail-button download-button" onClick={handleDownload} download={gameInfo.gameName} >
                                 <DownloadIcon width={'24px'} />
                             </a>
                         </div>
@@ -234,13 +282,21 @@ function GameDetail() {
                             alert("로그인이 필요한 서비스입니다.");
                             return;
                         }
+                        if (!isEngaged) { 
+                            alert("먼저 테스트에 참여해주세요.");
+                            return;
+                        }
+                        if (currentGameStatus === "done") { 
+                            alert("리뷰 작성 기한이 끝났습니다.");
+                            return;
+                        }
                         setShowReviewUpload(true);
                     }}
                     owner={userInfo.userId == gameInfo.userId}
                     userEmail={userInfo.email}
                 />
             </div>
-            <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} onClickButton={handleClickParticipate} />
+            <BottomBar currentGameStatus={currentGameStatus} currentUser={userInfo} gameMaker={gameInfo.userId} onClickButton={handleClickParticipate} onClickReviewWrite={()=>setShowReviewUpload(true)} />
         </>
     )
     

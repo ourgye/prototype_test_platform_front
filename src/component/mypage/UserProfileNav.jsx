@@ -13,7 +13,7 @@ function UserProfileNav(props) {
     return (
         <div className="user-profile-nav">
             <UserProfileNavItem name="게임" num={1} clicked={props.whichClicked == 1 ? true : false} onClick={props.onClick} />
-            <UserProfileNavItem name="리뷰" num={2} clicked={props.whichClicked==2? true: false} onClick={props.onClick} />
+            <UserProfileNavItem name="참여한 게임" num={2} clicked={props.whichClicked==2? true: false} onClick={props.onClick} />
             <UserProfileNavItem name="팔로잉" num={3} clicked={props.whichClicked==3? true: false } onClick={props.onClick}/>
             <UserProfileNavItem name="찜한 게임" num={4} clicked={props.whichClicked==4? true: false} onClick={props.onClick}/>
         </div>

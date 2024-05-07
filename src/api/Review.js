@@ -168,3 +168,33 @@ export async function rejectReview(testUserEmail, reviewId) {
     throw error;
   }
 }
+
+// 회차별 리뷰 불러오기
+export async function getReviewByRound(gameId, round) {
+  const requestURL = `/review/round`;
+  const all = round === -1 ? true : false;
+
+  const data = {
+    gameId: Number(gameId),
+    round: Number(round),
+    all: all,
+  };
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+
+    const reviewList = await res.json();
+
+    return reviewList;
+  } catch (error) {
+    throw error;
+  }
+}

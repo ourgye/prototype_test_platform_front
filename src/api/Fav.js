@@ -69,3 +69,23 @@ export const deleteFav = async (email, testId) => {
     throw error;
   }
 };
+
+// 테스트 찜 확인 dib/isDib/{testId}?email={}
+export const checkDib = async (email, testId) => {
+  const requestURL = `/dib/isDib/${testId}?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+
+    if (!res.ok) throw new Error(res.statusText);
+
+    const isDib = await res.text();
+    if (isDib === "true") return true;
+
+    return false;
+  } catch (error) {
+    throw error;
+  }
+};

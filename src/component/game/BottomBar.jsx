@@ -38,7 +38,8 @@ function BottomBar(props) {
         buttomBarContent.classButton = "owner-button";
     }
     
-    const handleOnClick = (userId==gameMaker || props.currentGameStatus === "done") ?  null : props.onClickButton
+    const participateTest = (userId == gameMaker || props.currentGameStatus === "done") ? null : props.onClickButton;
+    const handleOnClick = (props.currentGameStatus === "reviewing") ? props.onClickReviewWrite : participateTest;
 
     return (
         <div className={`bottom-bar-wrapper ${buttomBarContent.className}`}>

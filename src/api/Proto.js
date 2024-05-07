@@ -293,3 +293,64 @@ export async function searchGameByKeyword(keyword) {
     throw error;
   }
 }
+
+// 참여한 게임 리스트 불러오기 /proto/engagedList?email={}
+export async function getEngagedList(email) {
+  const requestURL = `/proto/engagedList?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const engagedList = await res.json();
+    return engagedList;
+  } catch (error) {
+    console.error("An error occurred during get engaged list:", error);
+    throw error;
+  }
+}
+
+// 사용자가 테스트에 참여 중인지 확인
+export async function checkEngaged(email, testId) {
+  const requestURL = `/proto/isEngaging/${testId}?email=${email}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const engaged = await res.text();
+    if (engaged === "true") return true;
+    return false;
+  } catch (error) {
+    console.error("An error occurred during check engaged:", error);
+    throw error;
+  }
+}
+
+// testId로 게임의 모든 리뷰 회차 알려주기
+export async function getTotalTestRound(testId) {
+  const requestURL = `/proto/round/${testId}`;
+
+  try {
+    const res = await fetch(requestURL, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const roundList = await res.json();
+    return roundList;
+  } catch (error) {
+    if (error.message === "Internal Server Error") return null;
+    else throw error;
+  }
+}
