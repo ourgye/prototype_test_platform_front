@@ -27,6 +27,6 @@ yarn-error.log*
 
 # temp file
 /src/image
-/src/firebase
+/src/firebase/firebase.js
 
 /src/.env
